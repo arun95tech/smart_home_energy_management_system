@@ -1,11 +1,14 @@
-from django.http import JsonResponse
-from django.urls import path
+from django.urls import include, path
+from rest_framework.routers import DefaultRouter
+
+from .views import PricingPlanViewSet, calculate_cost
 
 
-def pricing_home(request):
-    return JsonResponse({"app": "pricing", "status": "ready"})
+router = DefaultRouter()
+router.register("pricing-plans", PricingPlanViewSet)
 
 
 urlpatterns = [
-    path("", pricing_home, name="pricing_home"),
+    path("", include(router.urls)),
+    path("calculate-cost/", calculate_cost, name="calculate-cost"),
 ]
