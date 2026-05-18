@@ -1,71 +1,61 @@
-# Test Log
+# Test Log - Summary
 
-This file records backend testing done during development.
+## Purpose
 
-## Test History
+This file provides a concise summary of the testing completed for the Smart Home Energy Management System. A fuller record is maintained in `testing-log.md`.
+
+## Summary of Completed Tests
 
 # 01
-- Test: Backend migrations
-- Result: All migrations applied successfully
+- Test: Backend configuration check
+- Result: `python manage.py check` completed successfully with no issues found.
 - Status: Passed
 
 # 02
-- Test: Backend API endpoint check
-- Result: Main backend API endpoints returned status code 200
+- Test: Frontend production build
+- Result: React Vite frontend build completed successfully.
 - Status: Passed
 
 # 03
-- Test: Backend CRUD and action endpoint check
-- Result: Create, update, delete, fault action, pricing calculation, and dashboard checks passed
+- Test: Main API endpoint smoke testing
+- Result: Core API routes under `/api/` responded correctly during manual testing.
 - Status: Passed
 
 # 04
-- Test: Frontend production build
-- Result: React Vite frontend build completed successfully
+- Test: Role-based login and routing
+- Result: Homeowner, admin, and technician users were directed to the correct dashboards.
 - Status: Passed
 
 # 05
-- Test: Backend and frontend runtime smoke test
-- Result: Backend health endpoint and frontend page both loaded successfully
+- Test: Homeowner workflow
+- Result: Appliance management, energy usage logging, billing view, recommendations, and notifications worked as expected.
 - Status: Passed
 
-## Tested Endpoints
+# 06
+- Test: Admin workflow
+- Result: User management, pricing plans, appliance monitoring, category reporting, and dashboard views worked as expected.
+- Status: Passed
 
-- `/api/health/` -> 200
-- `/api/accounts/user-profiles/` -> 200
-- `/api/appliances/appliances/` -> 200
-- `/api/energy/energy-usage/` -> 200
-- `/api/notifications/notifications/` -> 200
-- `/api/recommendations/recommendations/` -> 200
-- `/api/pricing/pricing-plans/` -> 200
-- `/api/dashboard/admin-dashboard-summary/` -> 200
+# 07
+- Test: Technician workflow
+- Result: Fault alert review and mark-done functionality worked as expected.
+- Status: Passed
 
-## CRUD And Action Tests
+# 08
+- Test: Observer pattern behaviour
+- Result: High usage and appliance fault events created the expected notifications and fault records.
+- Status: Passed
 
-- Create appliance -> 201
-- Update appliance -> 200
-- Create energy usage -> 201
-- Create fault report -> 201
-- Mark fault done -> 200
-- Create recommendation -> 201
-- Create pricing plan -> 201
-- Calculate cost -> 200
-- Homeowner dashboard summary -> 200
-- Admin dashboard summary -> 200
-- Delete appliance -> 204
+# 09
+- Test: Strategy pattern pricing calculation
+- Result: Flat, peak-hour, off-peak, and green-energy pricing calculations returned expected results.
+- Status: Passed
 
-## Frontend Build Test
+# 10
+- Test: Django-served React frontend
+- Result: The built React app loaded through Django, and API routes remained separate from frontend routes.
+- Status: Passed
 
-- `npm install` -> Passed
-- `npm run build` -> Passed
+## Reference
 
-## Runtime Smoke Test
-
-- Backend health URL `http://127.0.0.1:8000/api/health/` -> 200
-- Frontend URL `http://127.0.0.1:5173/` -> 200
-
-## Single Server Test
-
-- Django backend serving React frontend at `http://127.0.0.1:8000/` -> Passed
-- Backend API through Django server `/api/health/` -> 200
-- React asset through Django server `/assets/index-CA0GJs_i.js` -> 200
+See `testing-log.md` for the detailed testing record, endpoint list, and testing limitations.
