@@ -22,9 +22,20 @@ This file records errors, issues, and problems found during development, along w
 - Solution: We corrected the API service paths so they match the Django backend routes.
 - Status: Resolved
 
-# 05
+# 04
 - Problem: The frontend build failed in the normal command run.
 - Cause: Vite could not read the config file because of a local permission issue.
 - Solution: We ran the build again with the required permission, and the build completed successfully.
 - Status: Resolved
 
+# 05
+- Problem: The frontend login details did not match the users created in the backend.
+- Cause: The login page still had old demo usernames and passwords.
+- Solution: We updated the login details to match the admin, Arun, and technician accounts.
+- Status: Resolved
+
+# 06
+- Problem: The frontend dev server failed during the normal command run.
+- Cause: Vite had the same local permission issue when reading the config file.
+- Solution: We ran the dev server again with the required permission, and the frontend loaded successfully.
+- Status: Resolved

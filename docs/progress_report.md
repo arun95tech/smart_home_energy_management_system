@@ -32,3 +32,6 @@ This file records the development progress of the Smart Home Energy Management S
 - Frontend files created
 - Frontend API service connected with backend routes
 - Frontend build completed successfully
+- Login details updated to match backend users
+- README setup and demo login details updated
+- Backend and frontend runtime smoke test completed successfully

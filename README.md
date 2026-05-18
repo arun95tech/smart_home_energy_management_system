@@ -43,3 +43,26 @@ A full-stack web application for managing smart home energy usage. The system he
 - **Strategy Pattern:** Used for pricing plan calculations, allowing different pricing strategies to be handled cleanly.
 - **Singleton Pattern:** Used for shared dashboard energy management logic.
 
+## Setup Commands
+
+### Backend
+
+```bash
+cd backend
+python manage.py migrate
+python manage.py runserver
+```
+
+### Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+## Demo Login Details
+
+- **Admin:** `admin` / `admin@123`
+- **Homeowner:** `Arun` / `arun@123`
+- **Technician:** `technician` / `tech@123`

@@ -24,6 +24,11 @@ This file records backend testing done during development.
 - Result: React Vite frontend build completed successfully
 - Status: Passed
 
+# 05
+- Test: Backend and frontend runtime smoke test
+- Result: Backend health endpoint and frontend page both loaded successfully
+- Status: Passed
+
 ## Tested Endpoints
 
 - `/api/health/` -> 200
@@ -53,3 +58,8 @@ This file records backend testing done during development.
 
 - `npm install` -> Passed
 - `npm run build` -> Passed
+
+## Runtime Smoke Test
+
+- Backend health URL `http://127.0.0.1:8000/api/health/` -> 200
+- Frontend URL `http://127.0.0.1:5173/` -> 200

@@ -1,11 +1,10 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-// Demo user IDs matching the seed data
 const DEMO_USERS = {
-  homeowner: { id: 1, username: 'homeowner', password: 'demo1234' },
-  admin:     { id: 2, username: 'admin',     password: 'demo1234' },
-  technician:{ id: 3, username: 'technician',password: 'demo1234' },
+  homeowner: { id: 2, username: 'Arun', password: 'arun@123' },
+  admin: { id: 1, username: 'admin', password: 'admin@123' },
+  technician: { id: 3, username: 'technician', password: 'tech@123' },
 }
 
 export default function Login() {
@@ -35,7 +34,7 @@ export default function Login() {
       }
       navigate(routes[role])
     } else {
-      setError(`Invalid credentials. Try: ${demo.username} / demo1234`)
+      setError(`Invalid credentials. Try: ${demo.username} / ${demo.password}`)
     }
   }
 
