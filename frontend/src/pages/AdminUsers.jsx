@@ -1,18 +1,25 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Sidebar from '../components/Sidebar.jsx'
-import { getProfiles, patchProfile } from '../services/api.js'
+import { getPricingPlans, getProfiles, patchProfile } from '../services/api.js'
 
 export default function AdminUsers() {
   const navigate = useNavigate()
   const [users, setUsers] = useState([])
+  const [pricingPlans, setPricingPlans] = useState([])
   const [loading, setLoading] = useState(true)
   const [filterRole, setFilterRole] = useState('')
   const [filterStatus, setFilterStatus] = useState('')
   const [msg, setMsg] = useState('')
 
   function load() {
-    getProfiles().then(setUsers).catch(console.error).finally(() => setLoading(false))
+    Promise.all([getProfiles(), getPricingPlans()])
+      .then(([profileData, planData]) => {
+        setUsers(profileData)
+        setPricingPlans(planData)
+      })
+      .catch(console.error)
+      .finally(() => setLoading(false))
   }
 
   useEffect(() => {
@@ -37,6 +44,23 @@ export default function AdminUsers() {
       await patchProfile(user.id, { [field]: value })
     } catch (err) {
       setMsg('❌ Failed to save: ' + err.message)
+      setTimeout(() => setMsg(''), 3000)
+    }
+  }
+
+  async function handlePricingPlanChange(user, value) {
+    const planId = value ? parseInt(value) : null
+    const selectedPlan = pricingPlans.find(plan => plan.id === planId)
+    try {
+      await patchProfile(user.id, {
+        pricing_plan: planId,
+        plan_name: selectedPlan ? selectedPlan.name : user.plan_name,
+      })
+      setMsg(`âœ… Pricing plan assigned to ${user.username}.`)
+      load()
+    } catch (err) {
+      setMsg('âŒ Failed to assign pricing plan: ' + err.message)
+    } finally {
       setTimeout(() => setMsg(''), 3000)
     }
   }
@@ -116,7 +140,7 @@ export default function AdminUsers() {
               <table>
                 <thead>
                   <tr>
-                    <th>User</th><th>Role</th><th>Plan Name</th><th>Expiry Date</th>
+                    <th>User</th><th>Role</th><th>Pricing Plan</th><th>Expiry Date</th>
                     <th>Plan Status</th><th>Member Status</th><th>Actions</th>
                   </tr>
                 </thead>
@@ -138,11 +162,17 @@ export default function AdminUsers() {
                         </td>
                         <td><span className="badge badge--blue">{u.role}</span></td>
                         <td>
-                          <input
-                            defaultValue={u.plan_name}
-                            style={{ border:'1px solid #e2e8f0', borderRadius:6, padding:'4px 8px', fontSize:12.5, width:140 }}
-                            onBlur={e => handlePlanBlur(u, 'plan_name', e.target.value)}
-                          />
+                          <select
+                            value={u.pricing_plan || ''}
+                            style={{ border:'1px solid #e2e8f0', borderRadius:6, padding:'4px 8px', fontSize:12.5, width:160 }}
+                            onChange={e => handlePricingPlanChange(u, e.target.value)}
+                          >
+                            {pricingPlans.map(plan => (
+                              <option key={plan.id} value={plan.id}>
+                                {plan.name}
+                              </option>
+                            ))}
+                          </select>
                         </td>
                         <td>
                           <input

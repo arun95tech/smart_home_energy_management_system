@@ -45,7 +45,7 @@ export default function AdminDashboard() {
       yAxisID: 'y',
     },
     {
-      label: 'Revenue (USD)',
+      label: 'Revenue (GBP)',
       data: revenueData,
       borderColor: '#3b82f6',
       backgroundColor: 'rgba(59,130,246,0.08)',
@@ -78,7 +78,7 @@ export default function AdminDashboard() {
               <DashboardCard title="Active Pricing Plans" value={summary?.active_pricing_plans ?? 0} subtitle="No changes" icon="💎" color="purple" />
               <DashboardCard title="System Notifications" value={summary?.total_notifications ?? 0} subtitle={`${summary?.unread_notifications ?? 0} unread`} icon="🔔" color="orange" />
               <DashboardCard title="Monthly Usage" value={`${summary?.total_kwh ?? 0} kWh`} subtitle="↑ 9.3% vs last month" icon="⚡" color="teal" />
-              <DashboardCard title="Revenue / Cost" value={`$${summary?.total_cost ?? 0}`} subtitle="↑ 14.6% vs last month" icon="💵" color="green" />
+              <DashboardCard title="Revenue / Cost" value={`£${summary?.total_cost ?? 0}`} subtitle="↑ 14.6% vs last month" icon="💷" color="green" />
             </div>
 
             <div className="content-grid">
@@ -91,7 +91,7 @@ export default function AdminDashboard() {
                 <EnergyChart type="line" labels={months} datasets={chartDatasets} height={200} />
                 <div style={{ display: 'flex', gap: 20, marginTop: 12, flexWrap: 'wrap' }}>
                   <div><p style={{ fontSize: 11, color: '#64748b' }}>Total Usage</p><p style={{ fontWeight: 800 }}>{summary?.total_kwh} kWh</p></div>
-                  <div><p style={{ fontSize: 11, color: '#64748b' }}>Total Cost</p><p style={{ fontWeight: 800 }}>${summary?.total_cost}</p></div>
+                  <div><p style={{ fontSize: 11, color: '#64748b' }}>Total Cost</p><p style={{ fontWeight: 800 }}>£{summary?.total_cost}</p></div>
                   <div><p style={{ fontSize: 11, color: '#64748b' }}>Pending Faults</p><p style={{ fontWeight: 800, color: '#f97316' }}>{summary?.pending_faults}</p></div>
                 </div>
               </div>
@@ -114,7 +114,7 @@ export default function AdminDashboard() {
                         <tr key={p.id}>
                           <td style={{ fontWeight: 600 }}>{p.name}</td>
                           <td><span className={`badge badge--${p.plan_type === 'green' ? 'green' : p.plan_type === 'peak' ? 'orange' : 'blue'}`}>{p.plan_type}</span></td>
-                          <td>${p.rate_per_kwh}/kWh</td>
+                          <td>£{p.rate_per_kwh}/kWh</td>
                           <td><span className={`badge badge--${p.is_active ? 'green' : 'gray'}`}>{p.is_active ? 'Active' : 'Inactive'}</span></td>
                         </tr>
                       ))}

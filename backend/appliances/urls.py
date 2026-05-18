@@ -1,15 +1,12 @@
-from django.urls import include, path
+from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-
-from .views import ApplianceScheduleViewSet, ApplianceViewSet, FaultReportViewSet
-
+from .views import ApplianceViewSet, ApplianceScheduleViewSet, FaultReportViewSet
 
 router = DefaultRouter()
-router.register("appliances", ApplianceViewSet)
-router.register("appliance-schedules", ApplianceScheduleViewSet)
-router.register("fault-reports", FaultReportViewSet)
-
+router.register(r'appliances', ApplianceViewSet)
+router.register(r'appliance-schedules', ApplianceScheduleViewSet)
+router.register(r'fault-reports', FaultReportViewSet)
 
 urlpatterns = [
-    path("", include(router.urls)),
+    path('', include(router.urls)),
 ]

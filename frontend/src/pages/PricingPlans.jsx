@@ -17,7 +17,7 @@ export default function PricingPlans() {
   const [msg, setMsg] = useState('')
 
   // Cost calculator state
-  const [calc, setCalc] = useState({ pricing_plan_id:'', usage_kwh:'', usage_time:'12:00' })
+  const [calc, setCalc] = useState({ pricing_plan_id:'', usage_kwh:'', usage_start_time:'17:00', usage_end_time:'21:00' })
   const [calcResult, setCalcResult] = useState(null)
   const [calcLoading, setCalcLoading] = useState(false)
 
@@ -68,11 +68,18 @@ export default function PricingPlans() {
     e.preventDefault()
     setCalcLoading(true)
     setCalcResult(null)
+    const selectedPlan = plans.find(p => p.id === parseInt(calc.pricing_plan_id))
     try {
       const result = await calculateCost({
         pricing_plan_id: parseInt(calc.pricing_plan_id),
         usage_kwh: parseFloat(calc.usage_kwh),
-        usage_time: calc.usage_time,
+        ...(selectedPlan?.plan_type === 'peak'
+          ? {
+              usage_time: calc.usage_start_time,
+              usage_start_time: calc.usage_start_time,
+              usage_end_time: calc.usage_end_time,
+            }
+          : {}),
       })
       setCalcResult(result)
     } catch (err) {
@@ -84,6 +91,8 @@ export default function PricingPlans() {
   }
 
   const TYPE_COLORS = { flat:'blue', peak:'orange', green:'green' }
+  const selectedCalcPlan = plans.find(p => p.id === parseInt(calc.pricing_plan_id))
+  const isPeakCalculator = selectedCalcPlan?.plan_type === 'peak'
 
   return (
     <div className="layout">
@@ -124,7 +133,7 @@ export default function PricingPlans() {
               </div>
               <div className="form-row">
                 <div className="form-group">
-                  <label className="form-label">Rate per kWh ($)</label>
+                  <label className="form-label">Rate per kWh (£)</label>
                   <input className="form-control" type="number" step="0.01" min="0" required value={form.rate_per_kwh} onChange={e => setForm(f=>({...f,rate_per_kwh:e.target.value}))} placeholder="0.30" />
                 </div>
                 <div className="form-group">
@@ -160,7 +169,7 @@ export default function PricingPlans() {
                       <tr key={p.id}>
                         <td style={{ fontWeight:600 }}>{p.name}</td>
                         <td><span className={`badge badge--${TYPE_COLORS[p.plan_type]}`}>{p.plan_type}</span></td>
-                        <td>${p.rate_per_kwh}/kWh</td>
+                        <td>£{p.rate_per_kwh}/kWh</td>
                         <td>{p.discount_percentage}%</td>
                         <td><span className={`badge badge--${p.is_active ? 'green':'gray'}`}>{p.is_active?'Active':'Inactive'}</span></td>
                         {role==='admin' && (
@@ -176,11 +185,11 @@ export default function PricingPlans() {
             )}
           </div>
 
-          {/* Cost Calculator (Strategy Pattern demo) */}
+          {/* Cost Calculator (Strategy Pattern) */}
           <div className="card">
             <div className="card-header"><span className="card-title">🧮 Cost Calculator</span></div>
             <p style={{ fontSize:12.5, color:'#64748b', marginBottom:16 }}>
-              Demonstrates the <strong>Strategy Pattern</strong> — different pricing strategies apply different cost calculation rules.
+              Uses the <strong>Strategy Pattern</strong> — different pricing strategies apply different cost calculation rules.
             </p>
             <form onSubmit={handleCalculate}>
               <div className="form-group">
@@ -194,10 +203,18 @@ export default function PricingPlans() {
                 <label className="form-label">Usage (kWh)</label>
                 <input className="form-control" type="number" step="0.1" min="0" required value={calc.usage_kwh} onChange={e => setCalc(c=>({...c,usage_kwh:e.target.value}))} placeholder="e.g. 10" />
               </div>
-              <div className="form-group">
-                <label className="form-label">Usage Time (for Peak Hour plan)</label>
-                <input className="form-control" type="time" value={calc.usage_time} onChange={e => setCalc(c=>({...c,usage_time:e.target.value}))} />
-              </div>
+              {isPeakCalculator && (
+                <div className="form-row">
+                  <div className="form-group">
+                    <label className="form-label">Start Time</label>
+                    <input className="form-control" type="time" value={calc.usage_start_time} onChange={e => setCalc(c=>({...c,usage_start_time:e.target.value}))} />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">End Time</label>
+                    <input className="form-control" type="time" value={calc.usage_end_time} onChange={e => setCalc(c=>({...c,usage_end_time:e.target.value}))} />
+                  </div>
+                </div>
+              )}
               <button className="btn btn-primary full-width" type="submit" disabled={calcLoading}>
                 {calcLoading ? 'Calculating…' : '⚡ Calculate Cost'}
               </button>
@@ -211,15 +228,20 @@ export default function PricingPlans() {
                     ['Plan', calcResult.plan_name],
                     ['Type', calcResult.plan_type],
                     ['Usage', `${calcResult.usage_kwh} kWh`],
-                    ['Rate', `$${calcResult.rate_per_kwh}/kWh`],
+                    ['Rate', `£${calcResult.rate_per_kwh}/kWh`],
                     ['Discount', `${calcResult.discount_percentage}%`],
-                    ['Time', calcResult.usage_time],
+                    ...(calcResult.plan_type === 'peak'
+                      ? [
+                          ['Start', calcResult.usage_start_time],
+                          ['End', calcResult.usage_end_time],
+                        ]
+                      : []),
                   ].map(([k,v]) => (
                     <div key={k} style={{ fontSize:12 }}><span style={{ color:'#64748b' }}>{k}:</span> <strong>{v}</strong></div>
                   ))}
                 </div>
                 <div style={{ marginTop:10, fontSize:18, fontWeight:800, color:'#16a34a' }}>
-                  💰 Calculated Cost: ${calcResult.calculated_cost}
+                  💰 Calculated Cost: £{calcResult.calculated_cost}
                 </div>
               </div>
             )}

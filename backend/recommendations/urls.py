@@ -1,13 +1,8 @@
-from django.urls import include, path
+from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-
 from .views import RecommendationViewSet
 
-
 router = DefaultRouter()
-router.register("recommendations", RecommendationViewSet)
+router.register(r'recommendations', RecommendationViewSet)
 
-
-urlpatterns = [
-    path("", include(router.urls)),
-]
+urlpatterns = [path('', include(router.urls))]

@@ -9,7 +9,7 @@ export default function RecommendationCard({ rec, onDelete }) {
         <h4 className="rec-card-title">{rec.title}</h4>
         <p className="rec-card-desc">{rec.description}</p>
         <span className="rec-card-saving">
-          💰 Estimated saving: <strong>${rec.estimated_saving}/month</strong>
+          💰 Estimated saving: <strong>£{rec.estimated_saving}/month</strong>
         </span>
       </div>
       {onDelete && (

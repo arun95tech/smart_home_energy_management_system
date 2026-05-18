@@ -84,7 +84,7 @@ export default function HomeownerDashboard() {
             <div className="cards-grid">
               <DashboardCard title="Total Appliances" value={summary?.total_appliances ?? 0} subtitle={`Active: ${summary?.appliance_status_summary?.on ?? 0}`} icon="🔌" color="green" />
               <DashboardCard title="Total Usage" value={`${summary?.total_kwh ?? 0} kWh`} subtitle="Today" icon="⚡" color="blue" />
-              <DashboardCard title="Total Cost" value={`$${summary?.total_cost ?? 0}`} subtitle="Today" icon="💵" color="teal" />
+              <DashboardCard title="Total Cost" value={`£${summary?.total_cost ?? 0}`} subtitle="Today" icon="💷" color="teal" />
               <DashboardCard title="Faulty Devices" value={summary?.faulty_appliances ?? 0} subtitle={summary?.faulty_appliances > 0 ? 'Needs attention' : 'All good'} icon="⚠️" color={summary?.faulty_appliances > 0 ? 'orange' : 'green'} />
               <DashboardCard title="Notifications" value={summary?.unread_notifications ?? 0} subtitle="Unread alerts" icon="🔔" color="purple" />
               <DashboardCard title="Recommendations" value={summary?.recommendations_count ?? 0} subtitle="Active tips" icon="🌿" color="green" />
@@ -124,7 +124,7 @@ export default function HomeownerDashboard() {
                 <EnergyChart type="line" labels={lineLabels} datasets={lineDatasets} height={180} />
                 <div style={{ display: 'flex', gap: 20, marginTop: 12, flexWrap: 'wrap' }}>
                   <div><p style={{ fontSize: 12, color: '#64748b' }}>Total Usage</p><p style={{ fontWeight: 800, fontSize: 16 }}>{summary?.total_kwh ?? 0} kWh</p></div>
-                  <div><p style={{ fontSize: 12, color: '#64748b' }}>Est. Cost</p><p style={{ fontWeight: 800, fontSize: 16 }}>${summary?.total_cost ?? 0}</p></div>
+                  <div><p style={{ fontSize: 12, color: '#64748b' }}>Est. Cost</p><p style={{ fontWeight: 800, fontSize: 16 }}>£{summary?.total_cost ?? 0}</p></div>
                 </div>
                 <div style={{ marginTop: 12, display: 'flex', gap: 8 }}>
                   <Link to="/energy-usage" className="btn btn-primary btn-sm">📊 View Usage</Link>
@@ -159,7 +159,7 @@ export default function HomeownerDashboard() {
                       <p style={{ fontWeight: 600, fontSize: 13 }}>{r.title}</p>
                       <p style={{ fontSize: 12, color: '#64748b' }}>{r.description}</p>
                     </div>
-                    <span className="badge badge--green">Save ${r.estimated_saving}</span>
+                    <span className="badge badge--green">Save £{r.estimated_saving}</span>
                   </div>
                 ))}
               </div>

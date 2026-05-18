@@ -1,30 +1,35 @@
+"""
+URL configuration for Smart Home Energy Management System.
+API routes under /api/, Django admin at /admin/, React catches everything else.
+"""
 from django.contrib import admin
+from django.urls import path, include, re_path
 from django.conf import settings
-from django.http import JsonResponse
-from django.urls import include, path, re_path
 from django.views.static import serve
-
+import os
 from core.views import react_app
 
-
-def health_check(request):
-    return JsonResponse({"status": "ok", "message": "Backend is running"})
-
-
 urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("api/health/", health_check, name="health_check"),
-    path("api/accounts/", include("accounts.urls")),
-    path("api/appliances/", include("appliances.urls")),
-    path("api/energy/", include("energy.urls")),
-    path("api/notifications/", include("notifications.urls")),
-    path("api/recommendations/", include("recommendations.urls")),
-    path("api/dashboard/", include("dashboard.urls")),
-    path("api/pricing/", include("pricing.urls")),
+    # Django admin
+    path('admin/', admin.site.urls),
+
+    # All API routes
+    path('api/', include('accounts.urls')),
+    path('api/', include('appliances.urls')),
+    path('api/', include('energy.urls')),
+    path('api/', include('pricing.urls')),
+    path('api/', include('notifications.urls')),
+    path('api/', include('recommendations.urls')),
+    path('api/', include('dashboard.urls')),
+
+    # Serve React assets from the dist/assets folder
     re_path(
-        r"^assets/(?P<path>.*)$",
+        r'^assets/(?P<path>.*)$',
         serve,
-        {"document_root": settings.BASE_DIR.parent / "frontend" / "dist" / "assets"},
+        {'document_root': os.path.join(settings.BASE_DIR, '..', 'frontend', 'dist', 'assets')}
     ),
-    re_path(r"^(?!api/)(?!admin/).*$", react_app, name="react_app"),
+
+    # Catch-all: serve React app for any non-API route
+    # This allows browser refresh on React routes to work
+    re_path(r'^(?!api/)(?!admin/).*$', react_app),
 ]

@@ -85,7 +85,7 @@ export default function Recommendations() {
             <span className="mini-stat-label">Total Tips</span>
           </div>
           <div className="mini-stat">
-            <span className="mini-stat-val text-green">${totalSaving}</span>
+            <span className="mini-stat-val text-green">£{totalSaving}</span>
             <span className="mini-stat-label">Est. Savings/mo</span>
           </div>
         </div>
@@ -104,7 +104,7 @@ export default function Recommendations() {
                 <textarea className="form-control" rows={3} required value={form.description} onChange={e => setForm(f=>({...f,description:e.target.value}))} placeholder="Describe the energy-saving tip…" style={{ resize:'vertical' }} />
               </div>
               <div className="form-group">
-                <label className="form-label">Estimated Saving ($/month)</label>
+                <label className="form-label">Estimated Saving (£/month)</label>
                 <input className="form-control" type="number" step="0.01" min="0" value={form.estimated_saving} onChange={e => setForm(f=>({...f,estimated_saving:e.target.value}))} placeholder="e.g. 12.50" />
               </div>
               <button className="btn btn-primary" type="submit" disabled={saving}>{saving ? 'Saving…' : '✅ Save'}</button>

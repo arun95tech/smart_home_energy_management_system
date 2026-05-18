@@ -1,14 +1,11 @@
-from django.urls import include, path
+from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-
 from .views import PricingPlanViewSet, calculate_cost
 
-
 router = DefaultRouter()
-router.register("pricing-plans", PricingPlanViewSet)
-
+router.register(r'pricing-plans', PricingPlanViewSet)
 
 urlpatterns = [
-    path("", include(router.urls)),
-    path("calculate-cost/", calculate_cost, name="calculate-cost"),
+    path('', include(router.urls)),
+    path('calculate-cost/', calculate_cost, name='calculate-cost'),
 ]

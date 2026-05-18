@@ -6,8 +6,10 @@ const MENUS = {
     { label: 'Dashboard', path: '/homeowner-dashboard', icon: '🏠' },
     { label: 'Appliances', path: '/appliances', icon: '🔌' },
     { label: 'Energy Usage', path: '/energy-usage', icon: '⚡' },
+    { label: 'Billing', path: '/billing', icon: '💳' },
     { label: 'Recommendations', path: '/recommendations', icon: '💡' },
     { label: 'Notifications', path: '/notifications', icon: '🔔' },
+    { label: 'Profile', path: '/profile', icon: '👤' },
   ],
   admin: [
     { label: 'Dashboard', path: '/admin-dashboard', icon: '📊' },
@@ -17,12 +19,14 @@ const MENUS = {
     { label: 'Category Report', path: '/appliance-category-report', icon: '📋' },
     { label: 'Fault Overview', path: '/admin-fault-overview', icon: '⚠️' },
     { label: 'Notifications', path: '/notifications', icon: '🔔' },
+    { label: 'Profile', path: '/profile', icon: '👤' },
   ],
   technician: [
     { label: 'Dashboard', path: '/technician-dashboard', icon: '🔧' },
     { label: 'Fault Alerts', path: '/fault-alerts', icon: '⚠️' },
     { label: 'Appliances', path: '/appliances', icon: '🔌' },
     { label: 'Notifications', path: '/notifications', icon: '🔔' },
+    { label: 'Profile', path: '/profile', icon: '👤' },
   ],
 }
 

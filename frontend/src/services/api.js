@@ -1,73 +1,94 @@
-const BASE = "/api"
+/**
+ * API service - all fetch calls go through here.
+ * Base URL is empty so it works with both the Vite proxy (dev)
+ * and the Django server (production build).
+ */
+const BASE = '/api'
 
 async function request(path, options = {}) {
+  const sessionHeaders = {
+    'X-User-Id': localStorage.getItem('user_id') || '',
+    'X-Role': localStorage.getItem('role') || '',
+    'X-Username': localStorage.getItem('username') || '',
+  }
   const res = await fetch(`${BASE}${path}`, {
-    headers: { "Content-Type": "application/json", ...options.headers },
+    headers: { 'Content-Type': 'application/json', ...sessionHeaders, ...options.headers },
     ...options,
   })
-
   if (!res.ok) {
     const err = await res.json().catch(() => ({}))
     throw new Error(err.detail || err.error || `HTTP ${res.status}`)
   }
-
+  // Handle 204 No Content
   if (res.status === 204) return null
   return res.json()
 }
 
-// User Profiles
-export const getProfiles = () => request("/accounts/user-profiles/")
+// Auth
+export const login = (credentials) =>
+  request('/login/', { method: 'POST', body: JSON.stringify(credentials) })
+export const registerHomeowner = (data) =>
+  request('/register-homeowner/', { method: 'POST', body: JSON.stringify(data) })
+export const changePassword = (data) =>
+  request('/change-password/', { method: 'POST', body: JSON.stringify(data) })
+
+// ── User Profiles ──────────────────────────────────────────────────────────
+export const getProfiles = () => request('/user-profiles/')
 export const patchProfile = (id, data) =>
-  request(`/accounts/user-profiles/${id}/`, { method: "PATCH", body: JSON.stringify(data) })
+  request(`/user-profiles/${id}/`, { method: 'PATCH', body: JSON.stringify(data) })
 
-// Appliances
+// ── Appliances ─────────────────────────────────────────────────────────────
 export const getAppliances = (homeownerId) =>
-  request(`/appliances/appliances/${homeownerId ? `?homeowner_id=${homeownerId}` : ""}`)
+  request(`/appliances/${homeownerId ? `?homeowner_id=${homeownerId}` : ''}`)
 export const createAppliance = (data) =>
-  request("/appliances/appliances/", { method: "POST", body: JSON.stringify(data) })
+  request('/appliances/', { method: 'POST', body: JSON.stringify(data) })
 export const patchAppliance = (id, data) =>
-  request(`/appliances/appliances/${id}/`, { method: "PATCH", body: JSON.stringify(data) })
+  request(`/appliances/${id}/`, { method: 'PATCH', body: JSON.stringify(data) })
 export const deleteAppliance = (id) =>
-  request(`/appliances/appliances/${id}/`, { method: "DELETE" })
+  request(`/appliances/${id}/`, { method: 'DELETE' })
 
-// Fault Reports
-export const getFaultReports = () => request("/appliances/fault-reports/")
+// ── Fault Reports ──────────────────────────────────────────────────────────
+export const getFaultReports = () => request('/fault-reports/')
 export const markFaultDone = (id) =>
-  request(`/appliances/fault-reports/${id}/mark-done/`, { method: "PATCH" })
+  request(`/fault-reports/${id}/mark-done/`, { method: 'PATCH' })
 
-// Energy Usage
+// ── Energy Usage ───────────────────────────────────────────────────────────
 export const getEnergyUsage = (homeownerId) =>
-  request(`/energy/energy-usage/${homeownerId ? `?homeowner_id=${homeownerId}` : ""}`)
+  request(`/energy-usage/${homeownerId ? `?homeowner_id=${homeownerId}` : ''}`)
 export const createEnergyUsage = (data) =>
-  request("/energy/energy-usage/", { method: "POST", body: JSON.stringify(data) })
+  request('/energy-usage/', { method: 'POST', body: JSON.stringify(data) })
+export const getEnergyUsageSessions = (homeownerId) =>
+  request(`/energy-usage-sessions/${homeownerId ? `?homeowner_id=${homeownerId}` : ''}`)
+export const getDailyBills = (homeownerId) =>
+  request(`/daily-bills/${homeownerId ? `?homeowner_id=${homeownerId}` : ''}`)
 
-// Pricing Plans
-export const getPricingPlans = () => request("/pricing/pricing-plans/")
+// ── Pricing Plans ──────────────────────────────────────────────────────────
+export const getPricingPlans = () => request('/pricing-plans/')
 export const createPricingPlan = (data) =>
-  request("/pricing/pricing-plans/", { method: "POST", body: JSON.stringify(data) })
+  request('/pricing-plans/', { method: 'POST', body: JSON.stringify(data) })
 export const deletePricingPlan = (id) =>
-  request(`/pricing/pricing-plans/${id}/`, { method: "DELETE" })
+  request(`/pricing-plans/${id}/`, { method: 'DELETE' })
 export const calculateCost = (data) =>
-  request("/pricing/calculate-cost/", { method: "POST", body: JSON.stringify(data) })
+  request('/calculate-cost/', { method: 'POST', body: JSON.stringify(data) })
 
-// Notifications
+// ── Notifications ──────────────────────────────────────────────────────────
 export const getNotifications = (recipientId) =>
-  request(`/notifications/notifications/${recipientId ? `?recipient_id=${recipientId}` : ""}`)
+  request(`/notifications/${recipientId ? `?recipient_id=${recipientId}` : ''}`)
 export const markNotificationRead = (id) =>
-  request(`/notifications/notifications/${id}/mark-read/`, { method: "PATCH" })
+  request(`/notifications/${id}/mark-read/`, { method: 'PATCH' })
 export const deleteNotification = (id) =>
-  request(`/notifications/notifications/${id}/`, { method: "DELETE" })
+  request(`/notifications/${id}/`, { method: 'DELETE' })
 
-// Recommendations
+// ── Recommendations ────────────────────────────────────────────────────────
 export const getRecommendations = (homeownerId) =>
-  request(`/recommendations/recommendations/${homeownerId ? `?homeowner_id=${homeownerId}` : ""}`)
+  request(`/recommendations/${homeownerId ? `?homeowner_id=${homeownerId}` : ''}`)
 export const createRecommendation = (data) =>
-  request("/recommendations/recommendations/", { method: "POST", body: JSON.stringify(data) })
+  request('/recommendations/', { method: 'POST', body: JSON.stringify(data) })
 export const deleteRecommendation = (id) =>
-  request(`/recommendations/recommendations/${id}/`, { method: "DELETE" })
+  request(`/recommendations/${id}/`, { method: 'DELETE' })
 
-// Dashboard
+// ── Dashboard ──────────────────────────────────────────────────────────────
 export const getDashboardSummary = (homeownerId) =>
-  request(`/dashboard/dashboard-summary/${homeownerId}/`)
+  request(`/dashboard-summary/${homeownerId}/`)
 export const getAdminDashboardSummary = () =>
-  request("/dashboard/admin-dashboard-summary/")
+  request('/admin-dashboard-summary/')

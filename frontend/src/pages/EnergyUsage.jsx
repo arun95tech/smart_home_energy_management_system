@@ -81,7 +81,7 @@ export default function EnergyUsage() {
             <span className="mini-stat-label">Total kWh</span>
           </div>
           <div className="mini-stat">
-            <span className="mini-stat-val text-green">${(parseFloat(totalKwh) * 0.30).toFixed(2)}</span>
+            <span className="mini-stat-val text-green">£{(parseFloat(totalKwh) * 0.30).toFixed(2)}</span>
             <span className="mini-stat-label">Est. Cost</span>
           </div>
           <div className="mini-stat">
