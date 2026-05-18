@@ -53,12 +53,25 @@ python manage.py migrate
 python manage.py runserver
 ```
 
+After the frontend is built, Django serves both the backend API and the React interface.
+Open `http://127.0.0.1:8000/`.
+
 ### Frontend
 
 ```bash
 cd frontend
 npm install
 npm run dev
+```
+
+For the single-server demo, build the frontend once:
+
+```bash
+cd frontend
+npm install
+npm run build
+cd ../backend
+python manage.py runserver
 ```
 
 ## Demo Login Details

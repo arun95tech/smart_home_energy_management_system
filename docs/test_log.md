@@ -63,3 +63,9 @@ This file records backend testing done during development.
 
 - Backend health URL `http://127.0.0.1:8000/api/health/` -> 200
 - Frontend URL `http://127.0.0.1:5173/` -> 200
+
+## Single Server Test
+
+- Django backend serving React frontend at `http://127.0.0.1:8000/` -> Passed
+- Backend API through Django server `/api/health/` -> 200
+- React asset through Django server `/assets/index-CA0GJs_i.js` -> 200

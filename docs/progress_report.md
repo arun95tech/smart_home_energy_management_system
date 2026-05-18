@@ -35,3 +35,4 @@ This file records the development progress of the Smart Home Energy Management S
 - Login details updated to match backend users
 - README setup and demo login details updated
 - Backend and frontend runtime smoke test completed successfully
+- Project updated to run frontend through Django backend after frontend build
