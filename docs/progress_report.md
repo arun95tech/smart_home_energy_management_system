@@ -12,6 +12,8 @@ This file records the development progress of the Smart Home Energy Management S
 - Basic Django backend core project created
 - Backend requirements file created
 - Django system check completed successfully
-- Pre-commit Django system check completed successfully
 - Git ignore file created to avoid committing cache, database, environment, dependency, and build files
-- Initial project setup committed locally
+- Backend apps created for accounts, appliances, energy, notifications, recommendations, dashboard, and pricing
+- Backend apps registered in core settings
+- Backend app routes connected in core URL configuration
+- Django system check completed successfully after backend app registration
