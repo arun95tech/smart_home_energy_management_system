@@ -19,6 +19,11 @@ This file records backend testing done during development.
 - Result: Create, update, delete, fault action, pricing calculation, and dashboard checks passed
 - Status: Passed
 
+# 04
+- Test: Frontend production build
+- Result: React Vite frontend build completed successfully
+- Status: Passed
+
 ## Tested Endpoints
 
 - `/api/health/` -> 200
@@ -43,3 +48,8 @@ This file records backend testing done during development.
 - Homeowner dashboard summary -> 200
 - Admin dashboard summary -> 200
 - Delete appliance -> 204
+
+## Frontend Build Test
+
+- `npm install` -> Passed
+- `npm run build` -> Passed

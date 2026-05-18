@@ -16,4 +16,15 @@ This file records errors, issues, and problems found during development, along w
 - Solution: We ran the migration command, and all database tables were created successfully.
 - Status: Resolved
 
+# 03
+- Problem: The frontend API paths did not match the backend routes at first.
+- Cause: The frontend was calling short API paths, but the backend routes were grouped by app name.
+- Solution: We corrected the API service paths so they match the Django backend routes.
+- Status: Resolved
+
+# 05
+- Problem: The frontend build failed in the normal command run.
+- Cause: Vite could not read the config file because of a local permission issue.
+- Solution: We ran the build again with the required permission, and the build completed successfully.
+- Status: Resolved
 

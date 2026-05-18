@@ -29,3 +29,6 @@ This file records the development progress of the Smart Home Energy Management S
 - Backend API endpoints tested successfully
 - Test log file created
 - Backend CRUD and action endpoints tested successfully
+- Frontend files created
+- Frontend API service connected with backend routes
+- Frontend build completed successfully
