@@ -1,0 +1,137 @@
+# Generated for the Smart Home Energy Management System.
+
+import django.db.models.deletion
+from django.conf import settings
+from django.db import migrations, models
+
+
+class Migration(migrations.Migration):
+    initial = True
+
+    dependencies = [
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+    ]
+
+    operations = [
+        migrations.CreateModel(
+            name="Appliance",
+            fields=[
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100)),
+                (
+                    "appliance_type",
+                    models.CharField(
+                        choices=[
+                            ("light", "Light"),
+                            ("ac", "Air Conditioner"),
+                            ("fridge", "Refrigerator"),
+                            ("heater", "Heater"),
+                            ("washing_machine", "Washing Machine"),
+                            ("other", "Other"),
+                        ],
+                        default="other",
+                        max_length=30,
+                    ),
+                ),
+                ("power_rating", models.FloatField(help_text="Power rating in watts")),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("on", "On"),
+                            ("off", "Off"),
+                            ("ok", "OK"),
+                            ("faulty", "Faulty"),
+                        ],
+                        default="off",
+                        max_length=20,
+                    ),
+                ),
+                ("room_location", models.CharField(blank=True, max_length=100)),
+                ("is_renewable_supported", models.BooleanField(default=False)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "homeowner",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="appliances",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+            ],
+        ),
+        migrations.CreateModel(
+            name="ApplianceSchedule",
+            fields=[
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("start_time", models.TimeField()),
+                ("end_time", models.TimeField()),
+                ("repeat_daily", models.BooleanField(default=True)),
+                (
+                    "appliance",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="schedules",
+                        to="appliances.appliance",
+                    ),
+                ),
+            ],
+        ),
+        migrations.CreateModel(
+            name="FaultReport",
+            fields=[
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("message", models.TextField()),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[("pending", "Pending"), ("done", "Done")],
+                        default="pending",
+                        max_length=20,
+                    ),
+                ),
+                ("reported_at", models.DateTimeField(auto_now_add=True)),
+                ("completed_at", models.DateTimeField(blank=True, null=True)),
+                (
+                    "appliance",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="fault_reports",
+                        to="appliances.appliance",
+                    ),
+                ),
+                (
+                    "homeowner",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="fault_reports",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+            ],
+        ),
+    ]
