@@ -1,11 +1,13 @@
-from django.http import JsonResponse
-from django.urls import path
+from django.urls import include, path
+from rest_framework.routers import DefaultRouter
+
+from .views import UserProfileViewSet
 
 
-def accounts_home(request):
-    return JsonResponse({"app": "accounts", "status": "ready"})
+router = DefaultRouter()
+router.register("user-profiles", UserProfileViewSet)
 
 
 urlpatterns = [
-    path("", accounts_home, name="accounts_home"),
+    path("", include(router.urls)),
 ]

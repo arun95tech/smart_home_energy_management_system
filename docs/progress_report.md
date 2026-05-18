@@ -17,3 +17,6 @@ This file records the development progress of the Smart Home Energy Management S
 - Backend apps registered in core settings
 - Backend app routes connected in core URL configuration
 - Django system check completed successfully after backend app registration
+- Accounts app completed with user profile model, serializer, viewset, API routes, admin setup, and migration
+- Accounts app Django system check completed successfully
+- Accounts app migration check completed successfully

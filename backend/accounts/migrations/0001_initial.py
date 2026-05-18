@@ -1,0 +1,55 @@
+# Generated for the Smart Home Energy Management System.
+
+import django.db.models.deletion
+from django.conf import settings
+from django.db import migrations, models
+
+
+class Migration(migrations.Migration):
+    initial = True
+
+    dependencies = [
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+    ]
+
+    operations = [
+        migrations.CreateModel(
+            name="UserProfile",
+            fields=[
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "role",
+                    models.CharField(
+                        choices=[
+                            ("homeowner", "Homeowner"),
+                            ("admin", "Admin"),
+                            ("technician", "Technician"),
+                        ],
+                        default="homeowner",
+                        max_length=20,
+                    ),
+                ),
+                ("phone_number", models.CharField(blank=True, max_length=20)),
+                ("address", models.TextField(blank=True)),
+                ("is_active_member", models.BooleanField(default=True)),
+                ("plan_name", models.CharField(default="Standard Plan", max_length=100)),
+                ("plan_expiry_date", models.DateField(blank=True, null=True)),
+                (
+                    "user",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="profile",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+            ],
+        ),
+    ]
