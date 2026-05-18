@@ -21,3 +21,4 @@ This file records the development progress of the Smart Home Energy Management S
 - Appliances app completed and checked complete successfully
 - Energy app completed and checked complete successfully
 - Notifications app completed and checked complete successfully
+- Recommendations app completed and checked complete successfully

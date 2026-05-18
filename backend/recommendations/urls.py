@@ -1,11 +1,13 @@
-from django.http import JsonResponse
-from django.urls import path
+from django.urls import include, path
+from rest_framework.routers import DefaultRouter
+
+from .views import RecommendationViewSet
 
 
-def recommendations_home(request):
-    return JsonResponse({"app": "recommendations", "status": "ready"})
+router = DefaultRouter()
+router.register("recommendations", RecommendationViewSet)
 
 
 urlpatterns = [
-    path("", recommendations_home, name="recommendations_home"),
+    path("", include(router.urls)),
 ]

@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register recommendation models here.
+from .models import Recommendation
+
+
+@admin.register(Recommendation)
+class RecommendationAdmin(admin.ModelAdmin):
+    list_display = ["title", "homeowner", "estimated_saving", "created_at"]
