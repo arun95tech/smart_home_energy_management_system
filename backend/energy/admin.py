@@ -1,3 +1,9 @@
 from django.contrib import admin
 
-# Register energy models here.
+from .models import EnergyUsage
+
+
+@admin.register(EnergyUsage)
+class EnergyUsageAdmin(admin.ModelAdmin):
+    list_display = ["appliance", "usage_kwh", "usage_date", "usage_time"]
+    list_filter = ["usage_date"]

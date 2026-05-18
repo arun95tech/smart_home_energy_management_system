@@ -1,11 +1,13 @@
-from django.http import JsonResponse
-from django.urls import path
+from django.urls import include, path
+from rest_framework.routers import DefaultRouter
+
+from .views import EnergyUsageViewSet
 
 
-def energy_home(request):
-    return JsonResponse({"app": "energy", "status": "ready"})
+router = DefaultRouter()
+router.register("energy-usage", EnergyUsageViewSet)
 
 
 urlpatterns = [
-    path("", energy_home, name="energy_home"),
+    path("", include(router.urls)),
 ]

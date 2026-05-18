@@ -19,3 +19,4 @@ This file records the development progress of the Smart Home Energy Management S
 - Django system check completed successfully after backend app registration
 - Accounts app completed and checked complete successfully
 - Appliances app completed and checked complete successfully
+- Energy app completed and checked complete successfully

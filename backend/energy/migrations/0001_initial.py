@@ -1,0 +1,41 @@
+# Generated for the Smart Home Energy Management System.
+
+import django.db.models.deletion
+from django.db import migrations, models
+
+
+class Migration(migrations.Migration):
+    initial = True
+
+    dependencies = [
+        ("appliances", "0001_initial"),
+    ]
+
+    operations = [
+        migrations.CreateModel(
+            name="EnergyUsage",
+            fields=[
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("usage_kwh", models.FloatField()),
+                ("usage_date", models.DateField(auto_now_add=True)),
+                ("usage_time", models.TimeField(auto_now_add=True)),
+                ("recorded_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "appliance",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="energy_usage",
+                        to="appliances.appliance",
+                    ),
+                ),
+            ],
+        ),
+    ]
