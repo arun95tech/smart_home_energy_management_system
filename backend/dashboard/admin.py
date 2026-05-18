@@ -1,3 +1,3 @@
 from django.contrib import admin
 
-# Register dashboard models here.
+# Dashboard has no models to register.
