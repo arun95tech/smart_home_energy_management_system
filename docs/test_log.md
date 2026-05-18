@@ -14,6 +14,11 @@ This file records backend testing done during development.
 - Result: Main backend API endpoints returned status code 200
 - Status: Passed
 
+# 03
+- Test: Backend CRUD and action endpoint check
+- Result: Create, update, delete, fault action, pricing calculation, and dashboard checks passed
+- Status: Passed
+
 ## Tested Endpoints
 
 - `/api/health/` -> 200
@@ -24,3 +29,17 @@ This file records backend testing done during development.
 - `/api/recommendations/recommendations/` -> 200
 - `/api/pricing/pricing-plans/` -> 200
 - `/api/dashboard/admin-dashboard-summary/` -> 200
+
+## CRUD And Action Tests
+
+- Create appliance -> 201
+- Update appliance -> 200
+- Create energy usage -> 201
+- Create fault report -> 201
+- Mark fault done -> 200
+- Create recommendation -> 201
+- Create pricing plan -> 201
+- Calculate cost -> 200
+- Homeowner dashboard summary -> 200
+- Admin dashboard summary -> 200
+- Delete appliance -> 204

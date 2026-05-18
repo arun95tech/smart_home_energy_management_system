@@ -28,3 +28,4 @@ This file records the development progress of the Smart Home Energy Management S
 - Admin, homeowner, and technician users created successfully
 - Backend API endpoints tested successfully
 - Test log file created
+- Backend CRUD and action endpoints tested successfully
