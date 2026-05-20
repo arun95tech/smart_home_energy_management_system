@@ -191,8 +191,9 @@ Smart_Home_Energy_Management_System/
   docs/
     progress_report.md
     problem_log.md
-    testing-log.md
+    test_log.md
     reflection-notes.md
+    diagrams/
 ```
 
 ## Testing
@@ -219,7 +220,7 @@ Further documentation is available in the `docs/` folder:
 
 - `progress_report.md`
 - `problem_log.md`
-- `testing-log.md`
+- `test_log.md`
 - `reflection-notes.md`
 
 Project diagrams are available in `docs/diagrams/`:

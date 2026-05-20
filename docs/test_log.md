@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This file provides a concise summary of the testing completed for the Smart Home Energy Management System. A fuller record is maintained in `testing-log.md`.
+This file records the testing completed for the Smart Home Energy Management System.
 
 ## Summary of Completed Tests
 
@@ -56,6 +56,8 @@ This file provides a concise summary of the testing completed for the Smart Home
 - Result: The built React app loaded through Django, and API routes remained separate from frontend routes.
 - Status: Passed
 
-## Reference
+## Testing Limitations
 
-See `testing-log.md` for the detailed testing record, endpoint list, and testing limitations.
+- The project currently uses manual testing and smoke testing rather than a full automated test suite.
+- Manual API tests use the same request headers as the frontend service: `X-User-Id`, `X-Role`, and `X-Username`.
+- Future improvement should include Django unit tests, API integration tests, and frontend component tests.
