@@ -98,9 +98,18 @@ This report summarises the development progress of the Smart Home Energy Managem
 - Added a catch-all route so React pages work after browser refresh.
 - Confirmed the frontend production build with `npm run build`.
 
+### 11. Documentation and Diagrams
+- Added academic project documentation for progress, testing, problems, reflection, and diagram justification.
+- Added required analysis and design diagrams:
+  - Use Case Diagram
+  - Class Diagram
+  - Entity Relationship Diagram
+- Added supporting diagrams for system architecture, role workflows, design patterns, and API data flow.
+- Stored the diagram JPG files in `docs/diagrams/`.
+
 ## Current Project Status
 
-The main development tasks are complete. The application supports role-based workflows, REST API communication, frontend routing, dashboard summaries, design pattern demonstrations, and a single-server deployment approach through Django.
+The main development tasks are complete. The application supports role-based workflows, REST API communication, frontend routing, dashboard summaries, design pattern demonstrations, required design diagrams, and a single-server deployment approach through Django.
 
 ## Remaining Improvement Opportunities
 

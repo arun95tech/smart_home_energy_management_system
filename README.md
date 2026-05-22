@@ -193,6 +193,7 @@ Smart_Home_Energy_Management_System/
     problem_log.md
     test_log.md
     reflection-notes.md
+    diagram_justification.md
     diagrams/
 ```
 
@@ -222,9 +223,18 @@ Further documentation is available in the `docs/` folder:
 - `problem_log.md`
 - `test_log.md`
 - `reflection-notes.md`
+- `diagram_justification.md`
 
 Project diagrams are available in `docs/diagrams/`:
 
+- `use-case-diagram.jpg`
+- `class-diagram.jpg`
+- `erd-diagram.jpg`
+- `sequence-high-usage.jpg`
+- `activity-fault-handling.jpg`
+- `state-appliance-status.jpg`
+- `component-diagram.jpg`
+- `deployment-diagram.jpg`
 - `system-architecture.jpg`
 - `role-workflows.jpg`
 - `design-patterns.jpg`
