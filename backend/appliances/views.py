@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from django.utils import timezone
 from accounts.utils import get_request_user, is_admin, is_homeowner, is_technician
 from energy.models import EnergyUsage, EnergyUsageSession
+from .factory import ApplianceFactory
 from .models import Appliance, ApplianceSchedule, FaultReport
 from .serializers import ApplianceSerializer, ApplianceScheduleSerializer, FaultReportSerializer
 
@@ -31,6 +32,15 @@ class ApplianceViewSet(viewsets.ModelViewSet):
         if not is_homeowner(request):
             return Response({'detail': 'Only homeowners can add appliances.'}, status=status.HTTP_403_FORBIDDEN)
         data = request.data.copy()
+        if data.get('appliance_type'):
+            factory_data = ApplianceFactory.create_appliance_data(
+                data.get('appliance_type'),
+                name=data.get('name'),
+                power_rating=data.get('power_rating'),
+                room_location=data.get('room_location'),
+            )
+            factory_data.update(data)
+            data = factory_data
         data['homeowner'] = get_request_user(request).id
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
