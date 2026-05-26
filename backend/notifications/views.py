@@ -2,7 +2,7 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework import status
 from rest_framework.response import Response
-from accounts.utils import get_request_user, is_admin, is_homeowner
+from accounts.utils import get_request_user, is_admin, is_homeowner, is_technician
 from .models import Notification
 from .serializers import NotificationSerializer
 
@@ -14,11 +14,14 @@ class NotificationViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         qs = super().get_queryset()
         recipient_id = self.request.query_params.get('recipient_id')
-        if recipient_id:
-            qs = qs.filter(recipient_id=recipient_id)
-        if is_homeowner(self.request):
-            qs = qs.filter(recipient=get_request_user(self.request))
-        return qs
+        user = get_request_user(self.request)
+        if is_admin(self.request):
+            if recipient_id:
+                qs = qs.filter(recipient_id=recipient_id)
+            return qs
+        if is_homeowner(self.request) or is_technician(self.request):
+            return qs.filter(recipient=user)
+        return qs.none()
 
     def destroy(self, request, *args, **kwargs):
         if is_admin(request):
@@ -32,5 +35,8 @@ class NotificationViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['patch'], url_path='mark-read')
     def mark_read(self, request, pk=None):
         notif = self.get_object()
+        user = get_request_user(request)
+        if not is_admin(request) and notif.recipient_id != getattr(user, 'id', None):
+            return Response({'detail': 'You can mark only your own notifications as read.'}, status=status.HTTP_403_FORBIDDEN)
         notif.mark_as_read()
         return Response(self.get_serializer(notif).data)

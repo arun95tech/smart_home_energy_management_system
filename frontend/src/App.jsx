@@ -25,7 +25,8 @@ const DASHBOARDS = {
 
 function ProtectedRoute({ children, roles }) {
   const role = localStorage.getItem('role')
-  if (!role) return <Navigate to="/login" replace />
+  const token = localStorage.getItem('auth_token')
+  if (!role || !token) return <Navigate to="/login" replace />
   if (roles && !roles.includes(role)) {
     return <Navigate to={DASHBOARDS[role] || '/login'} replace />
   }

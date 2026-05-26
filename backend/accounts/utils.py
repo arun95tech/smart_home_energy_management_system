@@ -1,29 +1,40 @@
 from django.contrib.auth.models import AnonymousUser, User
+from django.core.signing import BadSignature, SignatureExpired, TimestampSigner
+
+
+AUTH_TOKEN_SALT = 'shems-auth-token'
+AUTH_TOKEN_MAX_AGE = 60 * 60 * 24
+
+
+def create_auth_token(user):
+    return TimestampSigner(salt=AUTH_TOKEN_SALT).sign(str(user.id))
+
+
+def _get_bearer_token(request):
+    header = request.headers.get('Authorization', '')
+    if header.startswith('Bearer '):
+        return header.split(' ', 1)[1].strip()
+    return None
 
 
 def get_request_user(request):
-    user_id = request.headers.get('X-User-Id')
-    username = request.headers.get('X-Username')
+    token = _get_bearer_token(request)
+    if not token:
+        return AnonymousUser()
 
-    if user_id:
-        try:
-            return User.objects.get(id=user_id)
-        except (User.DoesNotExist, ValueError, TypeError):
-            return AnonymousUser()
-
-    if username:
-        try:
-            return User.objects.get(username=username)
-        except User.DoesNotExist:
-            return AnonymousUser()
+    try:
+        user_id = TimestampSigner(salt=AUTH_TOKEN_SALT).unsign(
+            token,
+            max_age=AUTH_TOKEN_MAX_AGE,
+        )
+        return User.objects.get(id=user_id)
+    except (BadSignature, SignatureExpired, User.DoesNotExist, ValueError, TypeError):
+        return AnonymousUser()
 
     return AnonymousUser()
 
 
 def get_request_role(request):
-    role = request.headers.get('X-Role')
-    if role:
-        return role
     user = get_request_user(request)
     if getattr(user, 'is_authenticated', False) and hasattr(user, 'profile'):
         return user.profile.role

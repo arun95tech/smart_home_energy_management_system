@@ -1,6 +1,6 @@
 from rest_framework import viewsets, status
 from rest_framework.response import Response
-from accounts.utils import get_request_user, is_homeowner
+from accounts.utils import get_request_user, is_admin, is_homeowner
 from .models import Recommendation
 from .serializers import RecommendationSerializer
 
@@ -12,11 +12,13 @@ class RecommendationViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         qs = super().get_queryset()
         homeowner_id = self.request.query_params.get('homeowner_id')
-        if homeowner_id:
-            qs = qs.filter(homeowner_id=homeowner_id)
         if is_homeowner(self.request):
-            qs = qs.filter(homeowner=get_request_user(self.request))
-        return qs
+            return qs.filter(homeowner=get_request_user(self.request))
+        if is_admin(self.request):
+            if homeowner_id:
+                qs = qs.filter(homeowner_id=homeowner_id)
+            return qs
+        return qs.none()
 
     def create(self, request, *args, **kwargs):
         if not is_homeowner(request):

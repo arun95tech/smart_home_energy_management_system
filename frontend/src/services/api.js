@@ -6,14 +6,11 @@
 const BASE = '/api'
 
 async function request(path, options = {}) {
-  const sessionHeaders = {
-    'X-User-Id': localStorage.getItem('user_id') || '',
-    'X-Role': localStorage.getItem('role') || '',
-    'X-Username': localStorage.getItem('username') || '',
-  }
+  const token = localStorage.getItem('auth_token')
+  const sessionHeaders = token ? { Authorization: `Bearer ${token}` } : {}
   const res = await fetch(`${BASE}${path}`, {
-    headers: { 'Content-Type': 'application/json', ...sessionHeaders, ...options.headers },
     ...options,
+    headers: { 'Content-Type': 'application/json', ...sessionHeaders, ...options.headers },
   })
   if (!res.ok) {
     const err = await res.json().catch(() => ({}))

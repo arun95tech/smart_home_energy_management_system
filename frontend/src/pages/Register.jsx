@@ -18,6 +18,7 @@ export default function Register() {
       localStorage.setItem('role', user.role)
       localStorage.setItem('user_id', user.id)
       localStorage.setItem('profile_id', user.profile_id)
+      localStorage.setItem('auth_token', user.auth_token)
       navigate('/homeowner-dashboard')
     } catch (err) {
       setError(err.message)

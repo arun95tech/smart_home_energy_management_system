@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import UserProfile
 from .serializers import UserProfileSerializer
-from .utils import get_request_user, is_admin
+from .utils import create_auth_token, get_request_user, is_admin
 
 
 class UserProfileViewSet(viewsets.ModelViewSet):
@@ -58,6 +58,7 @@ def login_view(request):
         'email': user.email,
         'role': profile.role,
         'profile_id': profile.id,
+        'auth_token': create_auth_token(user),
     })
 
 
@@ -88,6 +89,7 @@ def register_homeowner(request):
         'email': user.email,
         'role': profile.role,
         'profile_id': profile.id,
+        'auth_token': create_auth_token(user),
     }, status=status.HTTP_201_CREATED)
 
 
@@ -99,9 +101,12 @@ def change_password(request):
 
     current_password = request.data.get('current_password')
     new_password = request.data.get('new_password')
-    if not new_password:
-        return Response({'detail': 'new_password is required.'}, status=status.HTTP_400_BAD_REQUEST)
-    if current_password and not user.check_password(current_password):
+    if not current_password or not new_password:
+        return Response(
+            {'detail': 'current_password and new_password are required.'},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+    if not user.check_password(current_password):
         return Response({'detail': 'Current password is incorrect.'}, status=status.HTTP_400_BAD_REQUEST)
 
     user.set_password(new_password)
