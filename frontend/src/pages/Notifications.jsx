@@ -29,13 +29,13 @@ export default function Notifications() {
 
   async function handleMarkRead(id) {
     try { await markNotificationRead(id); load() }
-    catch (err) { setMsg('âŒ ' + err.message); setTimeout(() => setMsg(''), 3000) }
+    catch (err) { setMsg('❌ ' + err.message); setTimeout(() => setMsg(''), 3000) }
   }
 
   async function handleDelete(id) {
     if (role === 'admin') return // Admin cannot delete
     try { await deleteNotification(id); load() }
-    catch (err) { setMsg('âŒ ' + err.message); setTimeout(() => setMsg(''), 3000) }
+    catch (err) { setMsg('❌ ' + err.message); setTimeout(() => setMsg(''), 3000) }
   }
 
   const total = notifs.length
@@ -56,7 +56,7 @@ export default function Notifications() {
       <main className="main-content">
         <div className="page-header">
           <div className="page-header-left">
-            <h1>ðŸ”” <span>Notifications</span></h1>
+            <h1>🔔 <span>Notifications</span></h1>
             <p>{role === 'homeowner' ? 'Your personal notifications.' : 'All system notifications.'}</p>
           </div>
         </div>
@@ -88,8 +88,8 @@ export default function Notifications() {
           {[
             { key:'all', label:'All' },
             { key:'unread', label:`Unread (${unread})` },
-            { key:'high_usage', label:'âš¡ High Usage' },
-            { key:'fault', label:'âš ï¸ Faults' },
+            { key:'high_usage', label:'⚡ High Usage' },
+            { key:'fault', label:'⚠️ Faults' },
           ].map(tab => (
             <button key={tab.key} className={`btn btn-sm ${filter === tab.key ? 'btn-primary' : 'btn-ghost'}`} onClick={() => setFilter(tab.key)}>
               {tab.label}
@@ -100,9 +100,9 @@ export default function Notifications() {
         {/* Notification list */}
         <div className="card">
           {loading ? (
-            <div className="loading"><div className="loading-spinner"/><p>Loading notificationsâ€¦</p></div>
+            <div className="loading"><div className="loading-spinner"/><p>Loading notifications…</p></div>
           ) : filtered.length === 0 ? (
-            <div className="empty-state"><div className="empty-icon">ðŸ””</div><p>No notifications found.</p></div>
+            <div className="empty-state"><div className="empty-icon">🔔</div><p>No notifications found.</p></div>
           ) : filtered.map(n => (
             <NotificationBox
               key={n.id}

@@ -55,32 +55,32 @@ export default function TechnicianDashboard() {
             <h1>Welcome, <span>{username}</span></h1>
             <p>Here's your service overview and tasks for today.</p>
           </div>
-          <div style={{ fontSize: 13, color: '#64748b' }}>â˜€ï¸ 24Â°C Sunny</div>
+          <div style={{ fontSize: 13, color: '#64748b' }}>☀️ 24°C Sunny</div>
         </div>
 
         {loading ? (
-          <div className="loading"><div className="loading-spinner"/><p>Loading dashboardâ€¦</p></div>
+          <div className="loading"><div className="loading-spinner"/><p>Loading dashboard…</p></div>
         ) : (
           <>
             {/* Stat cards */}
             <div className="cards-grid">
-              <DashboardCard title="Fault Alerts" value={faults.length} subtitle={`${pending.length} Urgent`} icon="âš ï¸" color="orange" />
-              <DashboardCard title="Appliances Checked" value={done.length} subtitle="Today" icon="ðŸ”Œ" color="blue" />
-              <DashboardCard title="Pending Repairs" value={pending.length} subtitle="Due Today" icon="ðŸ”§" color="red" />
-              <DashboardCard title="Completed Tasks" value={done.length} subtitle="â†‘ 20% This Week" icon="âœ…" color="green" />
-              <DashboardCard title="Notifications" value={notifs.filter(n => !n.is_read).length} subtitle="New" icon="ðŸ””" color="purple" />
-              <DashboardCard title="Urgent Cases" value={pending.filter(f => f.appliance_type === 'ac' || f.appliance_type === 'heater').length} subtitle="Needs immediate action" icon="ðŸš¨" color="red" />
+              <DashboardCard title="Fault Alerts" value={faults.length} subtitle={`${pending.length} Urgent`} icon="⚠️" color="orange" />
+              <DashboardCard title="Appliances Checked" value={done.length} subtitle="Today" icon="🔌" color="blue" />
+              <DashboardCard title="Pending Repairs" value={pending.length} subtitle="Due Today" icon="🔧" color="red" />
+              <DashboardCard title="Completed Tasks" value={done.length} subtitle="↑ 20% This Week" icon="✅" color="green" />
+              <DashboardCard title="Notifications" value={notifs.filter(n => !n.is_read).length} subtitle="New" icon="🔔" color="purple" />
+              <DashboardCard title="Urgent Cases" value={pending.filter(f => f.appliance_type === 'ac' || f.appliance_type === 'heater').length} subtitle="Needs immediate action" icon="🚨" color="red" />
             </div>
 
             <div className="content-grid">
               {/* Faulty Appliances Table */}
               <div className="card" style={{ gridColumn: '1 / -1' }}>
                 <div className="card-header">
-                  <span className="card-title">âš ï¸ Faulty Appliances</span>
-                  <Link to="/fault-alerts" className="btn btn-primary btn-sm">View All Fault Alerts â†’</Link>
+                  <span className="card-title">⚠️ Faulty Appliances</span>
+                  <Link to="/fault-alerts" className="btn btn-primary btn-sm">View All Fault Alerts →</Link>
                 </div>
                 {faults.length === 0 ? (
-                  <div className="empty-state"><div className="empty-icon">âœ…</div><p>No fault reports found.</p></div>
+                  <div className="empty-state"><div className="empty-icon">✅</div><p>No fault reports found.</p></div>
                 ) : (
                   <div className="table-wrap">
                     <table>
@@ -94,7 +94,7 @@ export default function TechnicianDashboard() {
                               <div style={{ fontWeight: 600 }}>{f.appliance_name}</div>
                               <div style={{ fontSize: 11, color: '#94a3b8' }}>{f.appliance_type}</div>
                             </td>
-                            <td>{f.room_location || 'â€”'}</td>
+                            <td>{f.room_location || '—'}</td>
                             <td>
                               <span className={`badge badge--${f.status === 'pending' ? 'orange' : 'green'}`}>
                                 {f.status === 'pending' ? 'Pending Repair' : 'Completed'}
@@ -115,19 +115,19 @@ export default function TechnicianDashboard() {
               {/* Repair Trends Chart */}
               <div className="card">
                 <div className="card-header">
-                  <span className="card-title">ðŸ“Š Repair Trends (This Week)</span>
+                  <span className="card-title">📊 Repair Trends (This Week)</span>
                 </div>
                 <EnergyChart type="bar" labels={['Mon','Tue','Wed','Thu','Fri','Sat','Sun']} datasets={trendDatasets} height={180} />
                 <div style={{ display: 'flex', gap: 24, marginTop: 12 }}>
-                  <div><p style={{ fontSize: 11, color: '#64748b' }}>Total Repairs</p><p style={{ fontWeight: 800 }}>100 <span style={{ color: '#22c55e', fontSize: 12 }}>â†‘ 16%</span></p></div>
-                  <div><p style={{ fontSize: 11, color: '#64748b' }}>Avg. Resolution</p><p style={{ fontWeight: 800 }}>2.4 hrs <span style={{ color: '#ef4444', fontSize: 12 }}>â†“ 8%</span></p></div>
+                  <div><p style={{ fontSize: 11, color: '#64748b' }}>Total Repairs</p><p style={{ fontWeight: 800 }}>100 <span style={{ color: '#22c55e', fontSize: 12 }}>↑ 16%</span></p></div>
+                  <div><p style={{ fontSize: 11, color: '#64748b' }}>Avg. Resolution</p><p style={{ fontWeight: 800 }}>2.4 hrs <span style={{ color: '#ef4444', fontSize: 12 }}>↓ 8%</span></p></div>
                 </div>
               </div>
 
               {/* Maintenance Status */}
               <div className="card">
                 <div className="card-header">
-                  <span className="card-title">ðŸ”§ Maintenance Status</span>
+                  <span className="card-title">🔧 Maintenance Status</span>
                 </div>
                 <div className="progress-ring-wrap" style={{ marginBottom: 16 }}>
                   <div className="progress-ring">
@@ -164,16 +164,16 @@ export default function TechnicianDashboard() {
               {/* Recent Fault Notifications */}
               <div className="card">
                 <div className="card-header">
-                  <span className="card-title">ðŸ”” Recent Fault Notifications</span>
-                  <Link to="/notifications" className="card-link">View All â†’</Link>
+                  <span className="card-title">🔔 Recent Fault Notifications</span>
+                  <Link to="/notifications" className="card-link">View All →</Link>
                 </div>
                 {notifs.length === 0 ? (
                   <div className="empty-state"><p>No notifications.</p></div>
                 ) : notifs.map(n => (
                   <div key={n.id} style={{ display: 'flex', gap: 10, padding: '10px 0', borderBottom: '1px solid #f1f5f9', alignItems: 'flex-start' }}>
-                    <span style={{ fontSize: 18 }}>{n.notification_type === 'fault' ? 'âš ï¸' : 'âš¡'}</span>
+                    <span style={{ fontSize: 18 }}>{n.notification_type === 'fault' ? '⚠️' : '⚡'}</span>
                     <div style={{ flex: 1 }}>
-                      <p style={{ fontWeight: 600, fontSize: 13 }}>{n.message.slice(0, 55)}{n.message.length > 55 ? 'â€¦' : ''}</p>
+                      <p style={{ fontWeight: 600, fontSize: 13 }}>{n.message.slice(0, 55)}{n.message.length > 55 ? '…' : ''}</p>
                       <p style={{ fontSize: 11, color: '#94a3b8' }}>{new Date(n.created_at).toLocaleString()}</p>
                     </div>
                     {!n.is_read && <span className="badge badge--red" style={{ fontSize: 10 }}>New</span>}
@@ -184,7 +184,7 @@ export default function TechnicianDashboard() {
               {/* Fault Categories */}
               <div className="card">
                 <div className="card-header">
-                  <span className="card-title">ðŸ“‹ Fault Categories</span>
+                  <span className="card-title">📋 Fault Categories</span>
                 </div>
                 <div className="bar-chart">
                   {categories.map(c => (

@@ -13,4 +13,4 @@ class Recommendation(models.Model):
     # __str__ function
 
     def __str__(self):
-        return f"{self.title} â†’ {self.homeowner.username}"
+        return f"{self.title} → {self.homeowner.username}"

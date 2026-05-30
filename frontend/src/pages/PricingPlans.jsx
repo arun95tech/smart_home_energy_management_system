@@ -43,10 +43,10 @@ export default function PricingPlans() {
       })
       setForm(EMPTY_PLAN)
       setShowForm(false)
-      setMsg('âœ… Pricing plan created!')
+      setMsg('✅ Pricing plan created!')
       load()
     } catch (err) {
-      setMsg('âŒ ' + err.message)
+      setMsg('❌ ' + err.message)
     } finally {
       setSaving(false)
       setTimeout(() => setMsg(''), 3000)
@@ -57,10 +57,10 @@ export default function PricingPlans() {
     if (!window.confirm('Delete this plan?')) return
     try {
       await deletePricingPlan(id)
-      setMsg('âœ… Plan deleted.')
+      setMsg('✅ Plan deleted.')
       load()
     } catch (err) {
-      setMsg('âŒ ' + err.message)
+      setMsg('❌ ' + err.message)
     } finally {
       setTimeout(() => setMsg(''), 3000)
     }
@@ -85,7 +85,7 @@ export default function PricingPlans() {
       })
       setCalcResult(result)
     } catch (err) {
-      setMsg('âŒ Calculator error: ' + err.message)
+      setMsg('❌ Calculator error: ' + err.message)
       setTimeout(() => setMsg(''), 3000)
     } finally {
       setCalcLoading(false)
@@ -102,22 +102,22 @@ export default function PricingPlans() {
       <main className="main-content">
         <div className="page-header">
           <div className="page-header-left">
-            <h1>ðŸ’Ž <span>Pricing Plans</span></h1>
+            <h1>💎 <span>Pricing Plans</span></h1>
             <p>Manage energy pricing strategies and calculate costs.</p>
           </div>
           {role === 'admin' && (
             <button className="btn btn-primary" onClick={() => setShowForm(v => !v)}>
-              {showForm ? 'âœ• Cancel' : '+ Add New Plan'}
+              {showForm ? '✕ Cancel' : '+ Add New Plan'}
             </button>
           )}
         </div>
 
-        {msg && <div className={`alert ${msg.startsWith('âœ…') ? 'alert--success' : 'alert--danger'}`}>{msg}</div>}
+        {msg && <div className={`alert ${msg.startsWith('✅') ? 'alert--success' : 'alert--danger'}`}>{msg}</div>}
 
         {/* Add Plan Form (admin only) */}
         {role === 'admin' && showForm && (
           <div className="card" style={{ marginBottom: 20 }}>
-            <div className="card-header"><span className="card-title">âž• New Pricing Plan</span></div>
+            <div className="card-header"><span className="card-title">➕ New Pricing Plan</span></div>
             <form onSubmit={handleCreate}>
               <div className="form-row">
                 <div className="form-group">
@@ -135,7 +135,7 @@ export default function PricingPlans() {
               </div>
               <div className="form-row">
                 <div className="form-group">
-                  <label className="form-label">Rate per kWh (Â£)</label>
+                  <label className="form-label">Rate per kWh (£)</label>
                   <input className="form-control" type="number" step="0.01" min="0" required value={form.rate_per_kwh} onChange={e => setForm(f=>({...f,rate_per_kwh:e.target.value}))} placeholder="0.30" />
                 </div>
                 <div className="form-group">
@@ -147,7 +147,7 @@ export default function PricingPlans() {
                 <input type="checkbox" checked={form.is_active} onChange={e => setForm(f=>({...f,is_active:e.target.checked}))} />
                 Active Plan
               </label>
-              <button className="btn btn-primary" type="submit" disabled={saving}>{saving ? 'Savingâ€¦' : 'âœ… Create Plan'}</button>
+              <button className="btn btn-primary" type="submit" disabled={saving}>{saving ? 'Saving…' : '✅ Create Plan'}</button>
             </form>
           </div>
         )}
@@ -155,11 +155,11 @@ export default function PricingPlans() {
         <div className="content-grid">
           {/* Plans Table */}
           <div className="card">
-            <div className="card-header"><span className="card-title">ðŸ“‹ All Pricing Plans</span></div>
+            <div className="card-header"><span className="card-title">📋 All Pricing Plans</span></div>
             {loading ? (
               <div className="loading"><div className="loading-spinner"/></div>
             ) : plans.length === 0 ? (
-              <div className="empty-state"><div className="empty-icon">ðŸ’Ž</div><p>No pricing plans found.</p></div>
+              <div className="empty-state"><div className="empty-icon">💎</div><p>No pricing plans found.</p></div>
             ) : (
               <div className="table-wrap">
                 <table>
@@ -171,12 +171,12 @@ export default function PricingPlans() {
                       <tr key={p.id}>
                         <td style={{ fontWeight:600 }}>{p.name}</td>
                         <td><span className={`badge badge--${TYPE_COLORS[p.plan_type]}`}>{p.plan_type}</span></td>
-                        <td>Â£{p.rate_per_kwh}/kWh</td>
+                        <td>£{p.rate_per_kwh}/kWh</td>
                         <td>{p.discount_percentage}%</td>
                         <td><span className={`badge badge--${p.is_active ? 'green':'gray'}`}>{p.is_active?'Active':'Inactive'}</span></td>
                         {role==='admin' && (
                           <td>
-                            <button className="btn btn-sm btn-danger" onClick={() => handleDelete(p.id)}>ðŸ—‘ï¸ Delete</button>
+                            <button className="btn btn-sm btn-danger" onClick={() => handleDelete(p.id)}>🗑️ Delete</button>
                           </td>
                         )}
                       </tr>
@@ -189,15 +189,15 @@ export default function PricingPlans() {
 
           {/* Cost Calculator (Strategy Pattern) */}
           <div className="card">
-            <div className="card-header"><span className="card-title">ðŸ§® Cost Calculator</span></div>
+            <div className="card-header"><span className="card-title">🧮 Cost Calculator</span></div>
             <p style={{ fontSize:12.5, color:'#64748b', marginBottom:16 }}>
-              Uses the <strong>Strategy Pattern</strong> â€” different pricing strategies apply different cost calculation rules.
+              Uses the <strong>Strategy Pattern</strong> — different pricing strategies apply different cost calculation rules.
             </p>
             <form onSubmit={handleCalculate}>
               <div className="form-group">
                 <label className="form-label">Select Plan</label>
                 <select className="form-control" required value={calc.pricing_plan_id} onChange={e => setCalc(c=>({...c,pricing_plan_id:e.target.value}))}>
-                  <option value="">Choose a planâ€¦</option>
+                  <option value="">Choose a plan…</option>
                   {plans.map(p => <option key={p.id} value={p.id}>{p.name} ({p.plan_type})</option>)}
                 </select>
               </div>
@@ -218,19 +218,19 @@ export default function PricingPlans() {
                 </div>
               )}
               <button className="btn btn-primary full-width" type="submit" disabled={calcLoading}>
-                {calcLoading ? 'Calculatingâ€¦' : 'âš¡ Calculate Cost'}
+                {calcLoading ? 'Calculating…' : '⚡ Calculate Cost'}
               </button>
             </form>
 
             {calcResult && (
               <div className="alert alert--success" style={{ marginTop:16, flexDirection:'column', alignItems:'flex-start', gap:6 }}>
-                <strong>ðŸ“Š Calculation Result</strong>
+                <strong>📊 Calculation Result</strong>
                 <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'4px 12px', width:'100%', marginTop:6 }}>
                   {[
                     ['Plan', calcResult.plan_name],
                     ['Type', calcResult.plan_type],
                     ['Usage', `${calcResult.usage_kwh} kWh`],
-                    ['Rate', `Â£${calcResult.rate_per_kwh}/kWh`],
+                    ['Rate', `£${calcResult.rate_per_kwh}/kWh`],
                     ['Discount', `${calcResult.discount_percentage}%`],
                     ...(calcResult.plan_type === 'peak'
                       ? [
@@ -243,7 +243,7 @@ export default function PricingPlans() {
                   ))}
                 </div>
                 <div style={{ marginTop:10, fontSize:18, fontWeight:800, color:'#16a34a' }}>
-                  ðŸ’° Calculated Cost: Â£{calcResult.calculated_cost}
+                  💰 Calculated Cost: £{calcResult.calculated_cost}
                 </div>
               </div>
             )}

@@ -20,7 +20,7 @@ def react_app(request):
         return HttpResponse(
             """
             <html><body style="font-family:sans-serif;padding:40px;background:#1e2a3a;color:white">
-            <h2>âš¡ Smart Home Energy Management System</h2>
+            <h2>⚡ Smart Home Energy Management System</h2>
             <p>React app not built yet. Please run:</p>
             <pre style="background:#0d1b2a;padding:16px;border-radius:8px">
 cd frontend

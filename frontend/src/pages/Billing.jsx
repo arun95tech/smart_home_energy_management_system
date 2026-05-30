@@ -48,8 +48,8 @@ export default function Billing() {
         <div className="cards-grid">
           <DashboardCard title="Live Usage" value={`${summary?.live_kwh ?? 0} kWh`} subtitle="Running appliances" icon="Live" color="blue" />
           <DashboardCard title="Saved Usage" value={`${savedKwh} kWh`} subtitle="Recorded usage" icon="kWh" color="green" />
-          <DashboardCard title="Estimated Bill" value={`Â£${summary?.total_cost ?? 0}`} subtitle={summary?.plan_name || 'Standard Plan'} icon="Â£" color="teal" />
-          <DashboardCard title="Today's Bill" value={`Â£${summary?.today_bill_cost ?? 0}`} subtitle={`${summary?.today_bill_kwh ?? 0} kWh`} icon="Day" color="orange" />
+          <DashboardCard title="Estimated Bill" value={`£${summary?.total_cost ?? 0}`} subtitle={summary?.plan_name || 'Standard Plan'} icon="£" color="teal" />
+          <DashboardCard title="Today's Bill" value={`£${summary?.today_bill_cost ?? 0}`} subtitle={`${summary?.today_bill_kwh ?? 0} kWh`} icon="Day" color="orange" />
         </div>
 
         <div className="content-grid" style={{ marginTop: 20 }}>
@@ -57,7 +57,7 @@ export default function Billing() {
             <div className="card-header"><span className="card-title">Appliance Usage Sessions</span></div>
             {sessions.length === 0 ? <div className="empty-state"><p>No usage sessions yet.</p></div> : (
               <div className="table-wrap"><table><thead><tr><th>Appliance</th><th>Minutes</th><th>kWh</th><th>Cost</th><th>Ended</th></tr></thead><tbody>
-                {sessions.map(s => <tr key={s.id}><td>{s.appliance_name}</td><td>{s.duration_minutes}</td><td>{s.usage_kwh}</td><td>Â£{s.estimated_cost}</td><td>{new Date(s.ended_at).toLocaleString()}</td></tr>)}
+                {sessions.map(s => <tr key={s.id}><td>{s.appliance_name}</td><td>{s.duration_minutes}</td><td>{s.usage_kwh}</td><td>£{s.estimated_cost}</td><td>{new Date(s.ended_at).toLocaleString()}</td></tr>)}
               </tbody></table></div>
             )}
           </div>
@@ -65,7 +65,7 @@ export default function Billing() {
             <div className="card-header"><span className="card-title">Daily Bill History</span></div>
             {bills.length === 0 ? <div className="empty-state"><p>No daily bills yet.</p></div> : (
               <div className="table-wrap"><table><thead><tr><th>Date</th><th>kWh</th><th>Cost</th></tr></thead><tbody>
-                {bills.map(b => <tr key={b.id}><td>{b.bill_date}</td><td>{b.total_kwh}</td><td>Â£{b.total_cost}</td></tr>)}
+                {bills.map(b => <tr key={b.id}><td>{b.bill_date}</td><td>{b.total_kwh}</td><td>£{b.total_cost}</td></tr>)}
               </tbody></table></div>
             )}
           </div>

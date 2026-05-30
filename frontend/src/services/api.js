@@ -36,12 +36,12 @@ export const registerHomeowner = (data) =>
 export const changePassword = (data) =>
   request('/change-password/', { method: 'POST', body: JSON.stringify(data) })
 
-// â”€â”€ User Profiles â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── User Profiles ──────────────────────────────────────────────────────────
 export const getProfiles = () => request('/user-profiles/')
 export const patchProfile = (id, data) =>
   request(`/user-profiles/${id}/`, { method: 'PATCH', body: JSON.stringify(data) })
 
-// â”€â”€ Appliances â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Appliances ─────────────────────────────────────────────────────────────
 export const getAppliances = (homeownerId) =>
   request(`/appliances/${homeownerId ? `?homeowner_id=${homeownerId}` : ''}`)
 export const createAppliance = (data) =>
@@ -51,12 +51,12 @@ export const patchAppliance = (id, data) =>
 export const deleteAppliance = (id) =>
   request(`/appliances/${id}/`, { method: 'DELETE' })
 
-// â”€â”€ Fault Reports â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Fault Reports ──────────────────────────────────────────────────────────
 export const getFaultReports = () => request('/fault-reports/')
 export const markFaultDone = (id) =>
   request(`/fault-reports/${id}/mark-done/`, { method: 'PATCH' })
 
-// â”€â”€ Energy Usage â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Energy Usage ───────────────────────────────────────────────────────────
 export const getEnergyUsage = (homeownerId) =>
   request(`/energy-usage/${homeownerId ? `?homeowner_id=${homeownerId}` : ''}`)
 export const createEnergyUsage = (data) =>
@@ -66,7 +66,7 @@ export const getEnergyUsageSessions = (homeownerId) =>
 export const getDailyBills = (homeownerId) =>
   request(`/daily-bills/${homeownerId ? `?homeowner_id=${homeownerId}` : ''}`)
 
-// â”€â”€ Pricing Plans â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Pricing Plans ──────────────────────────────────────────────────────────
 export const getPricingPlans = () => request('/pricing-plans/')
 export const createPricingPlan = (data) =>
   request('/pricing-plans/', { method: 'POST', body: JSON.stringify(data) })
@@ -75,7 +75,7 @@ export const deletePricingPlan = (id) =>
 export const calculateCost = (data) =>
   request('/calculate-cost/', { method: 'POST', body: JSON.stringify(data) })
 
-// â”€â”€ Notifications â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Notifications ──────────────────────────────────────────────────────────
 export const getNotifications = (recipientId) =>
   request(`/notifications/${recipientId ? `?recipient_id=${recipientId}` : ''}`)
 export const markNotificationRead = (id) =>
@@ -83,7 +83,7 @@ export const markNotificationRead = (id) =>
 export const deleteNotification = (id) =>
   request(`/notifications/${id}/`, { method: 'DELETE' })
 
-// â”€â”€ Recommendations â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Recommendations ────────────────────────────────────────────────────────
 export const getRecommendations = (homeownerId) =>
   request(`/recommendations/${homeownerId ? `?homeowner_id=${homeownerId}` : ''}`)
 export const createRecommendation = (data) =>
@@ -91,7 +91,7 @@ export const createRecommendation = (data) =>
 export const deleteRecommendation = (id) =>
   request(`/recommendations/${id}/`, { method: 'DELETE' })
 
-// â”€â”€ Dashboard â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Dashboard ──────────────────────────────────────────────────────────────
 export const getDashboardSummary = (homeownerId) =>
   request(`/dashboard-summary/${homeownerId}/`)
 export const getAdminDashboardSummary = () =>

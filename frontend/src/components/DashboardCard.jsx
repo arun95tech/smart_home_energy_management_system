@@ -10,7 +10,7 @@ export default function DashboardCard({ title, value, subtitle, icon, color = 'b
       <div className="dash-card-header">
         <div>
           <p className="dash-card-title">{title}</p>
-          <p className="dash-card-value">{value ?? 'â€”'}</p>
+          <p className="dash-card-value">{value ?? '—'}</p>
         </div>
         <div className={`dash-card-icon dash-card-icon--${color}`}>
           {icon}

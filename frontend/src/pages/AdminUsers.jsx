@@ -32,10 +32,10 @@ export default function AdminUsers() {
   async function toggleActive(user) {
     try {
       await patchProfile(user.id, { is_active_member: !user.is_active_member })
-      setMsg(`âœ… ${user.username} ${!user.is_active_member ? 'activated' : 'deactivated'}.`)
+      setMsg(`✅ ${user.username} ${!user.is_active_member ? 'activated' : 'deactivated'}.`)
       load()
     } catch (err) {
-      setMsg('âŒ ' + err.message)
+      setMsg('❌ ' + err.message)
     } finally {
       setTimeout(() => setMsg(''), 3000)
     }
@@ -45,7 +45,7 @@ export default function AdminUsers() {
     try {
       await patchProfile(user.id, { [field]: value })
     } catch (err) {
-      setMsg('âŒ Failed to save: ' + err.message)
+      setMsg('❌ Failed to save: ' + err.message)
       setTimeout(() => setMsg(''), 3000)
     }
   }
@@ -58,10 +58,10 @@ export default function AdminUsers() {
         pricing_plan: planId,
         plan_name: selectedPlan ? selectedPlan.name : user.plan_name,
       })
-      setMsg(`Ã¢Å“â€¦ Pricing plan assigned to ${user.username}.`)
+      setMsg(`âœ… Pricing plan assigned to ${user.username}.`)
       load()
     } catch (err) {
-      setMsg('Ã¢ÂÅ’ Failed to assign pricing plan: ' + err.message)
+      setMsg('âŒ Failed to assign pricing plan: ' + err.message)
     } finally {
       setTimeout(() => setMsg(''), 3000)
     }
@@ -99,12 +99,12 @@ export default function AdminUsers() {
       <main className="main-content">
         <div className="page-header">
           <div className="page-header-left">
-            <h1>ðŸ‘¥ <span>User Management</span></h1>
+            <h1>👥 <span>User Management</span></h1>
             <p>Manage users, plans, and membership status.</p>
           </div>
         </div>
 
-        {msg && <div className={`alert ${msg.startsWith('âœ…') ? 'alert--success' : 'alert--danger'}`}>{msg}</div>}
+        {msg && <div className={`alert ${msg.startsWith('✅') ? 'alert--success' : 'alert--danger'}`}>{msg}</div>}
 
         {/* Summary */}
         <div className="mini-stats" style={{ marginBottom: 20 }}>
@@ -136,7 +136,7 @@ export default function AdminUsers() {
           {loading ? (
             <div className="loading"><div className="loading-spinner"/></div>
           ) : filtered.length === 0 ? (
-            <div className="empty-state"><div className="empty-icon">ðŸ‘¥</div><p>No users found.</p></div>
+            <div className="empty-state"><div className="empty-icon">👥</div><p>No users found.</p></div>
           ) : (
             <div className="table-wrap">
               <table>

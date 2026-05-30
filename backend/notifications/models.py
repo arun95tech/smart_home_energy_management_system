@@ -31,4 +31,4 @@ class Notification(models.Model):
     # __str__ function
 
     def __str__(self):
-        return f"{self.notification_type} â†’ {self.recipient.username}"
+        return f"{self.notification_type} → {self.recipient.username}"

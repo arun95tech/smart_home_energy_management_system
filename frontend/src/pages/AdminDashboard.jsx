@@ -66,34 +66,34 @@ export default function AdminDashboard() {
             <h1>Welcome, <span>{username}</span></h1>
             <p>Here's what's happening in your energy management system.</p>
           </div>
-          <div style={{ fontSize: 13, color: '#64748b' }}>â˜€ï¸ 24Â°C Sunny</div>
+          <div style={{ fontSize: 13, color: '#64748b' }}>☀️ 24°C Sunny</div>
         </div>
 
         {loading ? (
-          <div className="loading"><div className="loading-spinner"/><p>Loading dashboardâ€¦</p></div>
+          <div className="loading"><div className="loading-spinner"/><p>Loading dashboard…</p></div>
         ) : (
           <>
             {/* Stat cards */}
             <div className="cards-grid">
-              <DashboardCard title="Total Users" value={summary?.total_users ?? 0} subtitle="â†‘ 12% vs last month" icon="ðŸ‘¥" color="blue" />
-              <DashboardCard title="Total Appliances" value={summary?.total_appliances ?? 0} subtitle="â†‘ 8% vs last month" icon="ðŸ”Œ" color="green" />
-              <DashboardCard title="Active Pricing Plans" value={summary?.active_pricing_plans ?? 0} subtitle="No changes" icon="ðŸ’Ž" color="purple" />
-              <DashboardCard title="System Notifications" value={summary?.total_notifications ?? 0} subtitle={`${summary?.unread_notifications ?? 0} unread`} icon="ðŸ””" color="orange" />
-              <DashboardCard title="Monthly Usage" value={`${summary?.total_kwh ?? 0} kWh`} subtitle="â†‘ 9.3% vs last month" icon="âš¡" color="teal" />
-              <DashboardCard title="Revenue / Cost" value={`Â£${summary?.total_cost ?? 0}`} subtitle="â†‘ 14.6% vs last month" icon="ðŸ’·" color="green" />
+              <DashboardCard title="Total Users" value={summary?.total_users ?? 0} subtitle="↑ 12% vs last month" icon="👥" color="blue" />
+              <DashboardCard title="Total Appliances" value={summary?.total_appliances ?? 0} subtitle="↑ 8% vs last month" icon="🔌" color="green" />
+              <DashboardCard title="Active Pricing Plans" value={summary?.active_pricing_plans ?? 0} subtitle="No changes" icon="💎" color="purple" />
+              <DashboardCard title="System Notifications" value={summary?.total_notifications ?? 0} subtitle={`${summary?.unread_notifications ?? 0} unread`} icon="🔔" color="orange" />
+              <DashboardCard title="Monthly Usage" value={`${summary?.total_kwh ?? 0} kWh`} subtitle="↑ 9.3% vs last month" icon="⚡" color="teal" />
+              <DashboardCard title="Revenue / Cost" value={`£${summary?.total_cost ?? 0}`} subtitle="↑ 14.6% vs last month" icon="💷" color="green" />
             </div>
 
             <div className="content-grid">
               {/* System Overview Chart */}
               <div className="card">
                 <div className="card-header">
-                  <span className="card-title">ðŸ“ˆ System Overview</span>
+                  <span className="card-title">📈 System Overview</span>
                   <span className="badge badge--blue">This Month</span>
                 </div>
                 <EnergyChart type="line" labels={months} datasets={chartDatasets} height={200} />
                 <div style={{ display: 'flex', gap: 20, marginTop: 12, flexWrap: 'wrap' }}>
                   <div><p style={{ fontSize: 11, color: '#64748b' }}>Total Usage</p><p style={{ fontWeight: 800 }}>{summary?.total_kwh} kWh</p></div>
-                  <div><p style={{ fontSize: 11, color: '#64748b' }}>Total Cost</p><p style={{ fontWeight: 800 }}>Â£{summary?.total_cost}</p></div>
+                  <div><p style={{ fontSize: 11, color: '#64748b' }}>Total Cost</p><p style={{ fontWeight: 800 }}>£{summary?.total_cost}</p></div>
                   <div><p style={{ fontSize: 11, color: '#64748b' }}>Pending Faults</p><p style={{ fontWeight: 800, color: '#f97316' }}>{summary?.pending_faults}</p></div>
                 </div>
               </div>
@@ -101,7 +101,7 @@ export default function AdminDashboard() {
               {/* Pricing Plans */}
               <div className="card">
                 <div className="card-header">
-                  <span className="card-title">ðŸ’Ž Pricing Plans</span>
+                  <span className="card-title">💎 Pricing Plans</span>
                   <Link to="/pricing-plans" className="btn btn-primary btn-sm">+ Add New Plan</Link>
                 </div>
                 <div className="table-wrap">
@@ -116,14 +116,14 @@ export default function AdminDashboard() {
                         <tr key={p.id}>
                           <td style={{ fontWeight: 600 }}>{p.name}</td>
                           <td><span className={`badge badge--${p.plan_type === 'green' ? 'green' : p.plan_type === 'peak' ? 'orange' : 'blue'}`}>{p.plan_type}</span></td>
-                          <td>Â£{p.rate_per_kwh}/kWh</td>
+                          <td>£{p.rate_per_kwh}/kWh</td>
                           <td><span className={`badge badge--${p.is_active ? 'green' : 'gray'}`}>{p.is_active ? 'Active' : 'Inactive'}</span></td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
                 </div>
-                <Link to="/pricing-plans" className="card-link" style={{ display: 'block', marginTop: 12 }}>View all plans â†’</Link>
+                <Link to="/pricing-plans" className="card-link" style={{ display: 'block', marginTop: 12 }}>View all plans →</Link>
               </div>
             </div>
 
@@ -131,8 +131,8 @@ export default function AdminDashboard() {
             <div className="content-grid" style={{ marginTop: 20 }}>
               <div className="card">
                 <div className="card-header">
-                  <span className="card-title">ðŸ‘¥ User Management</span>
-                  <Link to="/admin-users" className="card-link">View All Users â†’</Link>
+                  <span className="card-title">👥 User Management</span>
+                  <Link to="/admin-users" className="card-link">View All Users →</Link>
                 </div>
                 <div className="table-wrap">
                   <table>
@@ -165,18 +165,18 @@ export default function AdminDashboard() {
               {/* Recent Activity */}
               <div className="card">
                 <div className="card-header">
-                  <span className="card-title">ðŸ”” Recent Activity</span>
-                  <Link to="/notifications" className="card-link">View All â†’</Link>
+                  <span className="card-title">🔔 Recent Activity</span>
+                  <Link to="/notifications" className="card-link">View All →</Link>
                 </div>
                 {notifs.length === 0 ? (
-                  <div className="empty-state"><div className="empty-icon">ðŸ””</div><p>No recent activity.</p></div>
+                  <div className="empty-state"><div className="empty-icon">🔔</div><p>No recent activity.</p></div>
                 ) : notifs.map(n => (
                   <div key={n.id} style={{ display: 'flex', gap: 10, padding: '10px 0', borderBottom: '1px solid #f1f5f9', alignItems: 'flex-start' }}>
                     <span style={{ fontSize: 18 }}>
-                      {n.notification_type === 'fault' ? 'âš ï¸' : n.notification_type === 'high_usage' ? 'âš¡' : 'ðŸ’¡'}
+                      {n.notification_type === 'fault' ? '⚠️' : n.notification_type === 'high_usage' ? '⚡' : '💡'}
                     </span>
                     <div style={{ flex: 1 }}>
-                      <p style={{ fontSize: 13, lineHeight: 1.4 }}>{n.message.slice(0, 70)}{n.message.length > 70 ? 'â€¦' : ''}</p>
+                      <p style={{ fontSize: 13, lineHeight: 1.4 }}>{n.message.slice(0, 70)}{n.message.length > 70 ? '…' : ''}</p>
                       <p style={{ fontSize: 11, color: '#94a3b8', marginTop: 2 }}>{new Date(n.created_at).toLocaleString()}</p>
                     </div>
                     {!n.is_read && <span className="badge badge--orange" style={{ fontSize: 10 }}>New</span>}

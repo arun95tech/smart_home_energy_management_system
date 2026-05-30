@@ -48,13 +48,13 @@ export default function AdminFaultOverview() {
       <main className="main-content">
         <div className="page-header">
           <div className="page-header-left">
-            <h1>âš ï¸ <span>Fault Overview</span></h1>
+            <h1>⚠️ <span>Fault Overview</span></h1>
             <p>System-wide view of all appliance fault reports.</p>
           </div>
         </div>
 
         <div className="alert alert--info" style={{ marginBottom: 16 }}>
-          â„¹ï¸ Admin view is <strong>read-only</strong>. Only technicians can mark faults as done.
+          ℹ️ Admin view is <strong>read-only</strong>. Only technicians can mark faults as done.
         </div>
 
         {/* Summary */}
@@ -72,8 +72,8 @@ export default function AdminFaultOverview() {
         <div className="filter-bar" style={{ marginBottom: 16 }}>
           {[
             { key:'all', label:`All (${faults.length})` },
-            { key:'pending', label:`â³ Pending (${pending.length})` },
-            { key:'done', label:`âœ… Resolved (${done.length})` },
+            { key:'pending', label:`⏳ Pending (${pending.length})` },
+            { key:'done', label:`✅ Resolved (${done.length})` },
           ].map(tab => (
             <button key={tab.key} className={`btn btn-sm ${filter === tab.key ? 'btn-primary' : 'btn-ghost'}`} onClick={() => setFilter(tab.key)}>
               {tab.label}
@@ -85,7 +85,7 @@ export default function AdminFaultOverview() {
           {loading ? (
             <div className="loading"><div className="loading-spinner"/></div>
           ) : filtered.length === 0 ? (
-            <div className="empty-state"><div className="empty-icon">âœ…</div><p>No fault reports found.</p></div>
+            <div className="empty-state"><div className="empty-icon">✅</div><p>No fault reports found.</p></div>
           ) : (
             <div className="table-wrap">
               <table>
@@ -101,7 +101,7 @@ export default function AdminFaultOverview() {
                       <td style={{ fontWeight:600 }}>{f.appliance_name}</td>
                       <td><span className="badge badge--blue">{f.appliance_type}</span></td>
                       <td>{f.homeowner_username}</td>
-                      <td>{f.room_location || 'â€”'}</td>
+                      <td>{f.room_location || '—'}</td>
                       <td>{f.power_rating}W</td>
                       <td>
                         <span className={`badge badge--${f.appliance_status==='faulty'?'red':f.appliance_status==='ok'?'green':'gray'}`}>
@@ -110,11 +110,11 @@ export default function AdminFaultOverview() {
                       </td>
                       <td style={{ fontSize:12.5, maxWidth:180 }}>{f.message}</td>
                       <td style={{ fontSize:12, color:'#64748b', whiteSpace:'nowrap' }}>
-                        {f.reported_at ? new Date(f.reported_at).toLocaleDateString() : 'â€”'}
+                        {f.reported_at ? new Date(f.reported_at).toLocaleDateString() : '—'}
                       </td>
                       <td>
                         <span className={`badge badge--${f.status==='pending'?'orange':'green'}`}>
-                          {f.status==='pending' ? 'â³ Pending' : 'âœ… Done'}
+                          {f.status==='pending' ? '⏳ Pending' : '✅ Done'}
                         </span>
                         {f.completed_at && (
                           <div style={{ fontSize:10.5, color:'#94a3b8', marginTop:2 }}>

@@ -58,17 +58,17 @@ export default function Register() {
 
           <div className="login-hero-features">
             <div className="hero-feature-card">
-              <div className="icon">ðŸ </div>
+              <div className="icon">🏠</div>
               <strong>Your Home</strong>
               <span>Add and control appliances</span>
             </div>
             <div className="hero-feature-card">
-              <div className="icon">âš¡</div>
+              <div className="icon">⚡</div>
               <strong>Usage</strong>
               <span>Track energy records</span>
             </div>
             <div className="hero-feature-card">
-              <div className="icon">ðŸ””</div>
+              <div className="icon">🔔</div>
               <strong>Alerts</strong>
               <span>Get important notifications</span>
             </div>
@@ -77,7 +77,7 @@ export default function Register() {
 
         <div className="login-form-side">
           <div className="login-logo">
-            <div className="logo-icon">ðŸ </div>
+            <div className="logo-icon">🏠</div>
             <h1>Create Account</h1>
             <p>Homeowner registration</p>
           </div>
@@ -86,7 +86,7 @@ export default function Register() {
             <h3>Homeowner details</h3>
             <p className="sub">Enter your account and contact information.</p>
 
-            {error && <div className="alert alert--danger" style={{ marginBottom: 14 }}>âš ï¸ {error}</div>}
+            {error && <div className="alert alert--danger" style={{ marginBottom: 14 }}>⚠️ {error}</div>}
 
             <div className="form-row">
               <div className="form-group">

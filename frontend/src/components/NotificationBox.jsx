@@ -6,10 +6,10 @@
 export default function NotificationBox({ notification, onMarkRead, onDelete }) {
   // typeConfig section
   const typeConfig = {
-    high_usage: { icon: 'âš¡', color: 'orange', label: 'High Usage' },
-    fault: { icon: 'âš ï¸', color: 'red', label: 'Fault Alert' },
-    recommendation: { icon: 'ðŸ’¡', color: 'green', label: 'Recommendation' },
-    schedule: { icon: 'ðŸ“…', color: 'blue', label: 'Schedule' },
+    high_usage: { icon: '⚡', color: 'orange', label: 'High Usage' },
+    fault: { icon: '⚠️', color: 'red', label: 'Fault Alert' },
+    recommendation: { icon: '💡', color: 'green', label: 'Recommendation' },
+    schedule: { icon: '📅', color: 'blue', label: 'Schedule' },
   }
   // config section
   const config = typeConfig[notification.notification_type] || typeConfig.recommendation
@@ -30,7 +30,7 @@ export default function NotificationBox({ notification, onMarkRead, onDelete }) 
         )}
         {onDelete && (
           <button className="btn btn-sm btn-danger-ghost" onClick={() => onDelete(notification.id)}>
-            âœ•
+            ✕
           </button>
         )}
       </div>

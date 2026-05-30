@@ -40,10 +40,10 @@ export default function EnergyUsage() {
       const kwh = parseFloat(form.usage_kwh)
       await createEnergyUsage({ appliance: parseInt(form.appliance), usage_kwh: kwh })
       setForm({ appliance: '', usage_kwh: '' })
-      setMsg(kwh > 10 ? 'âš¡ Usage recorded! High usage detected â€” notification sent.' : 'âœ… Usage recorded!')
+      setMsg(kwh > 10 ? '⚡ Usage recorded! High usage detected — notification sent.' : '✅ Usage recorded!')
       load()
     } catch (err) {
-      setMsg('âŒ ' + err.message)
+      setMsg('❌ ' + err.message)
     } finally {
       setSaving(false)
       setTimeout(() => setMsg(''), 4000)
@@ -59,16 +59,16 @@ export default function EnergyUsage() {
       <main className="main-content">
         <div className="page-header">
           <div className="page-header-left">
-            <h1>âš¡ <span>Energy Usage</span></h1>
+            <h1>⚡ <span>Energy Usage</span></h1>
             <p>Track energy consumption for your appliances.</p>
           </div>
         </div>
 
-        {msg && <div className={`alert ${msg.startsWith('âœ…') || msg.startsWith('âš¡') ? 'alert--success' : 'alert--danger'}`}>{msg}</div>}
+        {msg && <div className={`alert ${msg.startsWith('✅') || msg.startsWith('⚡') ? 'alert--success' : 'alert--danger'}`}>{msg}</div>}
 
         {highUsage.length > 0 && (
           <div className="alert alert--warning">
-            âš¡ {highUsage.length} record(s) with usage above 10 kWh detected. High usage notifications have been triggered.
+            ⚡ {highUsage.length} record(s) with usage above 10 kWh detected. High usage notifications have been triggered.
           </div>
         )}
 
@@ -83,7 +83,7 @@ export default function EnergyUsage() {
             <span className="mini-stat-label">Total kWh</span>
           </div>
           <div className="mini-stat">
-            <span className="mini-stat-val text-green">Â£{(parseFloat(totalKwh) * 0.30).toFixed(2)}</span>
+            <span className="mini-stat-val text-green">£{(parseFloat(totalKwh) * 0.30).toFixed(2)}</span>
             <span className="mini-stat-label">Est. Cost</span>
           </div>
           <div className="mini-stat">
@@ -95,13 +95,13 @@ export default function EnergyUsage() {
         {/* Add usage form (homeowner only) */}
         {role === 'homeowner' && (
           <div className="card" style={{ marginBottom: 20 }}>
-            <div className="card-header"><span className="card-title">âž• Log Energy Usage</span></div>
+            <div className="card-header"><span className="card-title">➕ Log Energy Usage</span></div>
             <form onSubmit={handleAdd}>
               <div className="form-row">
                 <div className="form-group">
                   <label className="form-label">Appliance</label>
                   <select className="form-control" required value={form.appliance} onChange={e => setForm(f => ({...f, appliance: e.target.value}))}>
-                    <option value="">Select applianceâ€¦</option>
+                    <option value="">Select appliance…</option>
                     {appliances.map(a => <option key={a.id} value={a.id}>{a.name}</option>)}
                   </select>
                 </div>
@@ -111,20 +111,20 @@ export default function EnergyUsage() {
                 </div>
               </div>
               {parseFloat(form.usage_kwh) > 10 && (
-                <div className="alert alert--warning">âš ï¸ Usage above 10 kWh will trigger a high-usage notification.</div>
+                <div className="alert alert--warning">⚠️ Usage above 10 kWh will trigger a high-usage notification.</div>
               )}
-              <button className="btn btn-primary" type="submit" disabled={saving}>{saving ? 'Savingâ€¦' : 'âœ… Log Usage'}</button>
+              <button className="btn btn-primary" type="submit" disabled={saving}>{saving ? 'Saving…' : '✅ Log Usage'}</button>
             </form>
           </div>
         )}
 
         {/* Usage Table */}
         <div className="card">
-          <div className="card-header"><span className="card-title">ðŸ“‹ Usage Records</span></div>
+          <div className="card-header"><span className="card-title">📋 Usage Records</span></div>
           {loading ? (
             <div className="loading"><div className="loading-spinner"/></div>
           ) : usage.length === 0 ? (
-            <div className="empty-state"><div className="empty-icon">âš¡</div><p>No energy usage records found.</p></div>
+            <div className="empty-state"><div className="empty-icon">⚡</div><p>No energy usage records found.</p></div>
           ) : (
             <div className="table-wrap">
               <table>
@@ -145,7 +145,7 @@ export default function EnergyUsage() {
                       <td>{u.usage_time}</td>
                       <td>
                         {u.usage_kwh > 10
-                          ? <span className="badge badge--orange">âš¡ High</span>
+                          ? <span className="badge badge--orange">⚡ High</span>
                           : <span className="badge badge--green">Normal</span>}
                       </td>
                     </tr>
