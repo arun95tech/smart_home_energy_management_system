@@ -1,21 +1,15 @@
-"""
-Dashboard views - returns aggregated summary for a homeowner.
-Uses the Singleton EnergyManagementSystem.
-"""
+﻿# Dashboard summary APIs
 from django.contrib.auth.models import User
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from .energy_manager import EnergyManagementSystem
 from accounts.utils import get_request_user, is_admin, is_homeowner
+# Homeowner dashboard summary API
 
 
 @api_view(['GET'])
 def dashboard_summary(request, homeowner_id):
-    """
-    GET /api/dashboard-summary/<homeowner_id>/
-    Returns dashboard stats for the given homeowner.
-    """
     try:
         homeowner = User.objects.get(id=homeowner_id)
     except User.DoesNotExist:
@@ -24,18 +18,15 @@ def dashboard_summary(request, homeowner_id):
     if is_homeowner(request) and get_request_user(request).id != homeowner.id:
         return Response({'detail': 'You can view only your own dashboard.'}, status=status.HTTP_403_FORBIDDEN)
 
-    # Use Singleton pattern
+    # Singleton Pattern: use one shared dashboard manager.
     ems = EnergyManagementSystem()
     summary = ems.get_dashboard_summary(homeowner)
     return Response(summary)
+# Admin dashboard summary API
 
 
 @api_view(['GET'])
 def admin_dashboard_summary(request):
-    """
-    GET /api/admin-dashboard-summary/
-    Returns system-wide stats for the admin dashboard.
-    """
     from django.contrib.auth.models import User
     from appliances.models import Appliance, FaultReport
     from pricing.models import PricingPlan

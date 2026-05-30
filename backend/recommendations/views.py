@@ -1,13 +1,16 @@
+﻿# Recommendation APIs
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from accounts.utils import get_request_user, is_admin, is_homeowner
 from .models import Recommendation
 from .serializers import RecommendationSerializer
+# Recommendation management API
 
 
 class RecommendationViewSet(viewsets.ModelViewSet):
     queryset = Recommendation.objects.select_related('homeowner').all()
     serializer_class = RecommendationSerializer
+    # get_queryset function
 
     def get_queryset(self):
         qs = super().get_queryset()
@@ -19,6 +22,7 @@ class RecommendationViewSet(viewsets.ModelViewSet):
                 qs = qs.filter(homeowner_id=homeowner_id)
             return qs
         return qs.none()
+    # create function
 
     def create(self, request, *args, **kwargs):
         if not is_homeowner(request):
@@ -29,6 +33,7 @@ class RecommendationViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    # destroy function
 
     def destroy(self, request, *args, **kwargs):
         recommendation = self.get_object()

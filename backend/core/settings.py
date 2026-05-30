@@ -1,3 +1,4 @@
+﻿# Django project settings
 """
 Django settings for Smart Home Energy Management System.
 Student project - uses SQLite, simple configuration.

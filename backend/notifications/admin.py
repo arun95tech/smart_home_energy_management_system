@@ -1,5 +1,7 @@
+﻿# Notification admin setup
 from django.contrib import admin
 from .models import Notification
+# NotificationAdmin section
 
 @admin.register(Notification)
 class NotificationAdmin(admin.ModelAdmin):

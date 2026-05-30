@@ -1,32 +1,29 @@
-"""
-Singleton Pattern for the Energy Management System dashboard.
-Only one instance exists throughout the app's lifecycle.
-"""
+﻿# Singleton pattern used here
+# Singleton Pattern: keeps dashboard summary logic in one shared manager.
+
 from django.contrib.auth.models import User
 from django.db.models import Sum
 from django.utils import timezone
+# Singleton pattern used here
 
 
 class EnergyManagementSystem:
-    """
-    Singleton class that aggregates dashboard data for a homeowner.
-    Uses __new__ to ensure only one instance is created.
-    """
     _instance = None
+    # __new__ function
 
     def __new__(cls):
-        # Singleton: return existing instance if already created
         if cls._instance is None:
             cls._instance = super().__new__(cls)
         return cls._instance
+    # calculate_total_kwh function
 
     def calculate_total_kwh(self, homeowner):
-        """Sum all energy usage for this homeowner's appliances."""
         from energy.models import EnergyUsage
         result = EnergyUsage.objects.filter(
             appliance__homeowner=homeowner
         ).aggregate(total=Sum('usage_kwh'))
         return round(result['total'] or 0, 2)
+    # calculate_live_kwh function
 
     def calculate_live_kwh(self, homeowner):
         from appliances.models import Appliance
@@ -34,25 +31,26 @@ class EnergyManagementSystem:
             appliance.calculate_running_kwh()
             for appliance in Appliance.objects.filter(homeowner=homeowner, status='on')
         ), 4)
+    # get_appliance_count function
 
     def get_appliance_count(self, homeowner):
-        """Total number of appliances owned by homeowner."""
         from appliances.models import Appliance
         return Appliance.objects.filter(homeowner=homeowner).count()
+    # get_faulty_appliance_count function
 
     def get_faulty_appliance_count(self, homeowner):
-        """Number of faulty appliances."""
         from appliances.models import Appliance
         return Appliance.objects.filter(homeowner=homeowner, status='faulty').count()
+    # calculate_total_cost function
 
     def calculate_total_cost(self, homeowner):
-        """Estimate cost using the profile pricing plan when available."""
         total_kwh = self.calculate_total_kwh(homeowner)
         profile = getattr(homeowner, 'profile', None)
         plan = getattr(profile, 'pricing_plan', None)
         if plan:
             return plan.calculate_cost(total_kwh)
         return round(total_kwh * 0.30, 2)
+    # get_rate function
 
     def get_rate(self, homeowner):
         profile = getattr(homeowner, 'profile', None)
@@ -62,6 +60,7 @@ class EnergyManagementSystem:
             'plan_type': plan.plan_type if plan else 'flat',
             'rate_per_kwh': plan.rate_per_kwh if plan else 0.30,
         }
+    # update_daily_bill function
 
     def update_daily_bill(self, homeowner):
         from energy.models import DailyBill, EnergyUsage
@@ -79,9 +78,9 @@ class EnergyManagementSystem:
             defaults={'total_kwh': usage, 'total_cost': cost},
         )
         return usage, cost
+    # get_dashboard_summary function
 
     def get_dashboard_summary(self, homeowner):
-        """Return a dict of all dashboard stats for this homeowner."""
         from appliances.models import Appliance
         from notifications.models import Notification
         from recommendations.models import Recommendation

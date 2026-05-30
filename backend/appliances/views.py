@@ -1,3 +1,4 @@
+﻿# Appliance, schedule, and fault APIs
 """
 Appliance views - CRUD for appliances, schedules, and fault reports.
 Fault report mark-done uses PATCH with custom action.
@@ -11,6 +12,7 @@ from energy.models import EnergyUsage, EnergyUsageSession
 from .factory import ApplianceFactory
 from .models import Appliance, ApplianceSchedule, FaultReport
 from .serializers import ApplianceSerializer, ApplianceScheduleSerializer, FaultReportSerializer
+# Appliance CRUD API
 
 
 class ApplianceViewSet(viewsets.ModelViewSet):
@@ -18,6 +20,7 @@ class ApplianceViewSet(viewsets.ModelViewSet):
     queryset = Appliance.objects.select_related('homeowner').all()
     serializer_class = ApplianceSerializer
     http_method_names = ['get', 'post', 'patch', 'delete', 'head', 'options']
+    # get_queryset function
 
     def get_queryset(self):
         """Optional filter by homeowner_id query param."""
@@ -30,6 +33,7 @@ class ApplianceViewSet(viewsets.ModelViewSet):
                 qs = qs.filter(homeowner_id=homeowner_id)
             return qs
         return qs.none()
+    # create function
 
     def create(self, request, *args, **kwargs):
         if not is_homeowner(request):
@@ -56,6 +60,7 @@ class ApplianceViewSet(viewsets.ModelViewSet):
             from notifications.observers import handle_appliance_fault
             handle_appliance_fault(appliance)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    # partial_update function
 
     def partial_update(self, request, *args, **kwargs):
         appliance = self.get_object()
@@ -68,6 +73,7 @@ class ApplianceViewSet(viewsets.ModelViewSet):
         appliance.refresh_from_db()
         self._handle_status_change(appliance, previous_status)
         return response
+    # destroy function
 
     def destroy(self, request, *args, **kwargs):
         appliance = self.get_object()
@@ -75,6 +81,7 @@ class ApplianceViewSet(viewsets.ModelViewSet):
         if not is_homeowner(request) or appliance.homeowner_id != getattr(user, 'id', None):
             return Response({'detail': 'Only the appliance homeowner can delete it.'}, status=status.HTTP_403_FORBIDDEN)
         return super().destroy(request, *args, **kwargs)
+    # _handle_status_change function
 
     def _handle_status_change(self, appliance, previous_status):
         now = timezone.now()
@@ -104,12 +111,14 @@ class ApplianceViewSet(viewsets.ModelViewSet):
         if appliance.status == 'faulty':
             from notifications.observers import handle_appliance_fault
             handle_appliance_fault(appliance)
+# Appliance schedule API
 
 
 class ApplianceScheduleViewSet(viewsets.ModelViewSet):
     queryset = ApplianceSchedule.objects.select_related('appliance').all()
     serializer_class = ApplianceScheduleSerializer
     http_method_names = ['get', 'post', 'patch', 'delete', 'head', 'options']
+    # get_queryset function
 
     def get_queryset(self):
         qs = super().get_queryset()
@@ -118,6 +127,7 @@ class ApplianceScheduleViewSet(viewsets.ModelViewSet):
         if is_homeowner(self.request):
             return qs.filter(appliance__homeowner=get_request_user(self.request))
         return qs.none()
+    # create function
 
     def create(self, request, *args, **kwargs):
         if not is_homeowner(request):
@@ -127,18 +137,21 @@ class ApplianceScheduleViewSet(viewsets.ModelViewSet):
         if not appliance_id or not Appliance.objects.filter(id=appliance_id, homeowner=user).exists():
             return Response({'detail': 'You can schedule only your own appliances.'}, status=status.HTTP_403_FORBIDDEN)
         return super().create(request, *args, **kwargs)
+    # partial_update function
 
     def partial_update(self, request, *args, **kwargs):
         schedule = self.get_object()
         if not is_homeowner(request) or schedule.appliance.homeowner_id != getattr(get_request_user(request), 'id', None):
             return Response({'detail': 'You can update only schedules for your own appliances.'}, status=status.HTTP_403_FORBIDDEN)
         return super().partial_update(request, *args, **kwargs)
+    # destroy function
 
     def destroy(self, request, *args, **kwargs):
         schedule = self.get_object()
         if not is_homeowner(request) or schedule.appliance.homeowner_id != getattr(get_request_user(request), 'id', None):
             return Response({'detail': 'You can delete only schedules for your own appliances.'}, status=status.HTTP_403_FORBIDDEN)
         return super().destroy(request, *args, **kwargs)
+# Fault report API
 
 
 class FaultReportViewSet(viewsets.ModelViewSet):
@@ -146,6 +159,7 @@ class FaultReportViewSet(viewsets.ModelViewSet):
     queryset = FaultReport.objects.select_related('appliance', 'homeowner').all()
     serializer_class = FaultReportSerializer
     http_method_names = ['get', 'post', 'patch', 'delete', 'head', 'options']
+    # get_queryset function
 
     def get_queryset(self):
         qs = super().get_queryset()
@@ -154,6 +168,7 @@ class FaultReportViewSet(viewsets.ModelViewSet):
         if is_homeowner(self.request):
             return qs.filter(homeowner=get_request_user(self.request))
         return qs.none()
+    # create function
 
     def create(self, request, *args, **kwargs):
         if not is_homeowner(request):
@@ -168,16 +183,19 @@ class FaultReportViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    # partial_update function
 
     def partial_update(self, request, *args, **kwargs):
         if not is_admin(request):
             return Response({'detail': 'Use mark-done for technician fault completion.'}, status=status.HTTP_403_FORBIDDEN)
         return super().partial_update(request, *args, **kwargs)
+    # destroy function
 
     def destroy(self, request, *args, **kwargs):
         if not is_admin(request):
             return Response({'detail': 'Only admins can delete fault reports.'}, status=status.HTTP_403_FORBIDDEN)
         return super().destroy(request, *args, **kwargs)
+    # Technician marks fault done
 
     @action(detail=True, methods=['patch'], url_path='mark-done')
     def mark_done(self, request, pk=None):

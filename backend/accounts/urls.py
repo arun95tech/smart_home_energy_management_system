@@ -1,3 +1,4 @@
+﻿# Accounts API routes
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import UserProfileViewSet, change_password, login_view, register_homeowner

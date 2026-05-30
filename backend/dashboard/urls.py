@@ -1,3 +1,4 @@
+﻿# Dashboard API routes
 from django.urls import path
 from .views import dashboard_summary, admin_dashboard_summary
 

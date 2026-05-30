@@ -1,12 +1,14 @@
+﻿// Appliance category report page
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Sidebar from '../components/Sidebar.jsx'
 import { getAppliances } from '../services/api.js'
 
-const TYPE_ICONS = { light:'💡', ac:'❄️', fridge:'🧊', heater:'🔥', washing_machine:'🫧', other:'🔌' }
+const TYPE_ICONS = { light:'ðŸ’¡', ac:'â„ï¸', fridge:'ðŸ§Š', heater:'ðŸ”¥', washing_machine:'ðŸ«§', other:'ðŸ”Œ' }
 const TYPE_LABELS = { light:'Lights', ac:'Air Conditioners', fridge:'Refrigerators', heater:'Heaters', washing_machine:'Washing Machines', other:'Other' }
 const TYPE_COLORS = { light:'#f59e0b', ac:'#3b82f6', fridge:'#06b6d4', heater:'#ef4444', washing_machine:'#8b5cf6', other:'#94a3b8' }
 
+// Appliance category report section
 export default function ApplianceCategoryReport() {
   const navigate = useNavigate()
   const [appliances, setAppliances] = useState([])
@@ -32,7 +34,7 @@ export default function ApplianceCategoryReport() {
       <main className="main-content">
         <div className="page-header">
           <div className="page-header-left">
-            <h1>📋 <span>Appliance Category Report</span></h1>
+            <h1>ðŸ“‹ <span>Appliance Category Report</span></h1>
             <p>Breakdown of appliances by category across all homeowners.</p>
           </div>
         </div>
@@ -42,27 +44,27 @@ export default function ApplianceCategoryReport() {
           <div className="dash-card dash-card--blue">
             <div className="dash-card-header">
               <div><p className="dash-card-title">Total Appliances</p><p className="dash-card-value">{total}</p></div>
-              <div className="dash-card-icon dash-card-icon--blue">🔌</div>
+              <div className="dash-card-icon dash-card-icon--blue">ðŸ”Œ</div>
             </div>
           </div>
           <div className="dash-card dash-card--green">
             <div className="dash-card-header">
               <div><p className="dash-card-title">Renewable Supported</p><p className="dash-card-value">{renewable}</p></div>
-              <div className="dash-card-icon dash-card-icon--green">🌿</div>
+              <div className="dash-card-icon dash-card-icon--green">ðŸŒ¿</div>
             </div>
             <p className="dash-card-sub">{total > 0 ? Math.round(renewable/total*100) : 0}% of total</p>
           </div>
           <div className="dash-card dash-card--red">
             <div className="dash-card-header">
               <div><p className="dash-card-title">Faulty Appliances</p><p className="dash-card-value">{faulty}</p></div>
-              <div className="dash-card-icon dash-card-icon--red">⚠️</div>
+              <div className="dash-card-icon dash-card-icon--red">âš ï¸</div>
             </div>
             <p className="dash-card-sub">{total > 0 ? Math.round(faulty/total*100) : 0}% of total</p>
           </div>
           <div className="dash-card dash-card--purple">
             <div className="dash-card-header">
               <div><p className="dash-card-title">Categories</p><p className="dash-card-value">{categories.length}</p></div>
-              <div className="dash-card-icon dash-card-icon--purple">📊</div>
+              <div className="dash-card-icon dash-card-icon--purple">ðŸ“Š</div>
             </div>
           </div>
         </div>
@@ -70,7 +72,7 @@ export default function ApplianceCategoryReport() {
         <div className="content-grid">
           {/* Bar Chart (CSS-only) */}
           <div className="card">
-            <div className="card-header"><span className="card-title">📊 Category Breakdown</span></div>
+            <div className="card-header"><span className="card-title">ðŸ“Š Category Breakdown</span></div>
             {loading ? (
               <div className="loading"><div className="loading-spinner"/></div>
             ) : (
@@ -93,7 +95,7 @@ export default function ApplianceCategoryReport() {
 
           {/* Category Cards */}
           <div className="card">
-            <div className="card-header"><span className="card-title">📋 Category Summary</span></div>
+            <div className="card-header"><span className="card-title">ðŸ“‹ Category Summary</span></div>
             <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
               {categories.map(c => (
                 <div key={c} style={{ display:'flex', alignItems:'center', gap:12, padding:'10px 12px', borderRadius:8, background:'#f8fafc', border:'1px solid #e8ecf3' }}>
@@ -102,7 +104,7 @@ export default function ApplianceCategoryReport() {
                     <p style={{ fontWeight:700, fontSize:13.5 }}>{TYPE_LABELS[c]}</p>
                     <p style={{ fontSize:12, color:'#64748b' }}>
                       {appliances.filter(a => a.appliance_type === c && a.is_renewable_supported).length} renewable
-                      {' · '}
+                      {' Â· '}
                       {appliances.filter(a => a.appliance_type === c && a.status === 'faulty').length} faulty
                     </p>
                   </div>

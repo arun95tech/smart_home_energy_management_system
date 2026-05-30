@@ -1,3 +1,4 @@
+﻿# Django ASGI entry point
 """ASGI config for the Smart Home Energy Management System."""
 import os
 

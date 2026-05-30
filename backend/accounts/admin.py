@@ -1,5 +1,7 @@
+﻿# Accounts admin setup
 from django.contrib import admin
 from .models import UserProfile
+# UserProfileAdmin section
 
 
 @admin.register(UserProfile)

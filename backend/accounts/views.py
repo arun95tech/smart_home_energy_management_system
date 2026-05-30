@@ -1,3 +1,4 @@
+﻿# Accounts API views
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from rest_framework import viewsets, status
@@ -6,6 +7,7 @@ from rest_framework.response import Response
 from .models import UserProfile
 from .serializers import UserProfileSerializer
 from .utils import create_auth_token, get_request_user, is_admin
+# User profile management API
 
 
 class UserProfileViewSet(viewsets.ModelViewSet):
@@ -13,6 +15,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     queryset = UserProfile.objects.select_related('user').all()
     serializer_class = UserProfileSerializer
     http_method_names = ['get', 'patch', 'head', 'options']
+    # get_queryset function
 
     def get_queryset(self):
         qs = super().get_queryset()
@@ -22,6 +25,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
         if getattr(user, 'is_authenticated', False):
             return qs.filter(user=user)
         return qs.none()
+    # partial_update function
 
     def partial_update(self, request, *args, **kwargs):
         profile = self.get_object()
@@ -29,6 +33,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
         if not is_admin(request) and profile.user_id != getattr(user, 'id', None):
             return Response({'detail': 'You can update only your own profile.'}, status=status.HTTP_403_FORBIDDEN)
         return super().partial_update(request, *args, **kwargs)
+# User login API
 
 
 @api_view(['POST'])
@@ -60,6 +65,7 @@ def login_view(request):
         'profile_id': profile.id,
         'auth_token': create_auth_token(user),
     })
+# Homeowner registration API
 
 
 @api_view(['POST'])
@@ -91,6 +97,7 @@ def register_homeowner(request):
         'profile_id': profile.id,
         'auth_token': create_auth_token(user),
     }, status=status.HTTP_201_CREATED)
+# Password change API
 
 
 @api_view(['POST'])

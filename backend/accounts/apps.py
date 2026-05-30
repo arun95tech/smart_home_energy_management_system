@@ -1,4 +1,6 @@
+﻿# Django app configuration
 from django.apps import AppConfig
+# AccountsConfig section
 
 
 class AccountsConfig(AppConfig):

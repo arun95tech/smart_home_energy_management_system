@@ -1,13 +1,8 @@
-"""
-Factory Pattern for appliance creation.
-Sets sensible defaults based on appliance type.
-"""
-
+﻿# Factory pattern used here
+# Factory Pattern: creates appliance defaults from the selected type.
+# Appliance default factory class
 
 class ApplianceFactory:
-    """Creates appliance data with defaults based on type."""
-
-    # Default power ratings (watts) per appliance type
     DEFAULT_POWER_RATINGS = {
         'light': 60,
         'ac': 1500,
@@ -17,7 +12,6 @@ class ApplianceFactory:
         'other': 100,
     }
 
-    # Default room locations per type
     DEFAULT_ROOMS = {
         'light': 'Living Room',
         'ac': 'Bedroom',
@@ -26,13 +20,10 @@ class ApplianceFactory:
         'washing_machine': 'Utility Room',
         'other': 'General',
     }
+    # create_appliance_data function
 
     @staticmethod
     def create_appliance_data(appliance_type, name=None, power_rating=None, room_location=None):
-        """
-        Returns a dict of appliance field defaults based on type.
-        The view can override any field after getting these defaults.
-        """
         return {
             'name': name or f"My {appliance_type.replace('_', ' ').title()}",
             'appliance_type': appliance_type,

@@ -1,3 +1,4 @@
+﻿// Energy chart component
 import { useEffect, useRef } from 'react'
 import {
   Chart,
@@ -23,8 +24,11 @@ Chart.register(
  *   datasets: Chart.js dataset objects
  *   height: number (px)
  */
+// Chart display section
 export default function EnergyChart({ type = 'bar', labels = [], datasets = [], height = 200 }) {
+  // canvasRef section
   const canvasRef = useRef(null)
+  // chartRef section
   const chartRef = useRef(null)
 
   useEffect(() => {

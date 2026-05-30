@@ -1,10 +1,13 @@
+﻿# Appliance serializers
 from rest_framework import serializers
 from .models import Appliance, ApplianceSchedule, FaultReport
+# ApplianceSerializer section
 
 
 class ApplianceSerializer(serializers.ModelSerializer):
     """Appliance serializer - includes readable homeowner username."""
     homeowner_username = serializers.CharField(source='homeowner.username', read_only=True)
+    # Meta section
 
     class Meta:
         model = Appliance
@@ -13,12 +16,15 @@ class ApplianceSerializer(serializers.ModelSerializer):
             'power_rating', 'status', 'room_location', 'is_renewable_supported',
             'last_turned_on_at', 'created_at'
         ]
+# ApplianceScheduleSerializer section
 
 
 class ApplianceScheduleSerializer(serializers.ModelSerializer):
+    # Meta section
     class Meta:
         model = ApplianceSchedule
         fields = '__all__'
+# FaultReportSerializer section
 
 
 class FaultReportSerializer(serializers.ModelSerializer):
@@ -29,6 +35,7 @@ class FaultReportSerializer(serializers.ModelSerializer):
     power_rating = serializers.FloatField(source='appliance.power_rating', read_only=True)
     appliance_status = serializers.CharField(source='appliance.status', read_only=True)
     homeowner_username = serializers.CharField(source='homeowner.username', read_only=True)
+    # Meta section
 
     class Meta:
         model = FaultReport

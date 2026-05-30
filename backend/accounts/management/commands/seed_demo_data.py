@@ -1,3 +1,4 @@
+﻿# Demo data seed command
 """
 Management command: python manage.py seed_demo_data
 
@@ -8,15 +9,17 @@ from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
 from django.utils import timezone
 from datetime import date, timedelta
+# Management command
 
 
 class Command(BaseCommand):
     help = 'Seeds the database with demo data for testing'
+    # handle function
 
     def handle(self, *args, **options):
-        self.stdout.write('🌱 Seeding demo data...')
+        self.stdout.write('ðŸŒ± Seeding demo data...')
 
-        # ── Users ──────────────────────────────────────────────────────────────
+        # â”€â”€ Users â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         homeowner, _ = User.objects.get_or_create(
             username='homeowner',
             defaults={'email': 'homeowner@demo.com', 'first_name': 'Sarah', 'last_name': 'Johnson'}
@@ -38,7 +41,7 @@ class Command(BaseCommand):
         technician.set_password('demo1234')
         technician.save()
 
-        # ── User Profiles ───────────────────────────────────────────────────────
+        # â”€â”€ User Profiles â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         from accounts.models import UserProfile
 
         profile_hw, _ = UserProfile.objects.get_or_create(user=homeowner)
@@ -62,9 +65,9 @@ class Command(BaseCommand):
         profile_tech.plan_expiry_date = date.today() + timedelta(days=365)
         profile_tech.save()
 
-        self.stdout.write('  ✅ Users + profiles created')
+        self.stdout.write('  âœ… Users + profiles created')
 
-        # ── Pricing Plans ───────────────────────────────────────────────────────
+        # â”€â”€ Pricing Plans â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         from pricing.models import PricingPlan
 
         flat_plan, _ = PricingPlan.objects.get_or_create(
@@ -80,9 +83,9 @@ class Command(BaseCommand):
             defaults={'plan_type': 'green', 'rate_per_kwh': 0.30, 'discount_percentage': 15, 'is_active': True}
         )
 
-        self.stdout.write('  ✅ Pricing plans created')
+        self.stdout.write('  âœ… Pricing plans created')
 
-        # ── Appliances ──────────────────────────────────────────────────────────
+        # â”€â”€ Appliances â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         from appliances.models import Appliance, FaultReport
 
         appliance_data = [
@@ -103,7 +106,7 @@ class Command(BaseCommand):
             )
             created_appliances.append(app)
 
-        # Faulty appliance → create FaultReport
+        # Faulty appliance â†’ create FaultReport
         faulty_app = next(a for a in created_appliances if a.status == 'faulty')
         FaultReport.objects.get_or_create(
             appliance=faulty_app,
@@ -114,9 +117,9 @@ class Command(BaseCommand):
             }
         )
 
-        self.stdout.write('  ✅ Appliances + fault report created')
+        self.stdout.write('  âœ… Appliances + fault report created')
 
-        # ── Energy Usage ────────────────────────────────────────────────────────
+        # â”€â”€ Energy Usage â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         from energy.models import EnergyUsage
 
         for appliance in created_appliances[:4]:
@@ -132,24 +135,24 @@ class Command(BaseCommand):
                 defaults={'usage_kwh': round(appliance.power_rating * 8 / 1000, 2)}
             )
 
-        self.stdout.write('  ✅ Energy usage records created')
+        self.stdout.write('  âœ… Energy usage records created')
 
-        # ── Recommendations ─────────────────────────────────────────────────────
+        # â”€â”€ Recommendations â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         from recommendations.models import Recommendation
 
         rec_data = [
-            {'title': 'Adjust AC Temperature', 'description': 'Set your AC to 24°C to save up to 10% on cooling costs.', 'estimated_saving': 12.50},
+            {'title': 'Adjust AC Temperature', 'description': 'Set your AC to 24Â°C to save up to 10% on cooling costs.', 'estimated_saving': 12.50},
             {'title': 'Use LED Bulbs', 'description': 'Replace old bulbs with LEDs to save energy and money.', 'estimated_saving': 8.00},
-            {'title': 'Run Appliances Off-Peak', 'description': 'Use heavy appliances during off-peak hours (10 PM – 6 AM).', 'estimated_saving': 15.00},
+            {'title': 'Run Appliances Off-Peak', 'description': 'Use heavy appliances during off-peak hours (10 PM â€“ 6 AM).', 'estimated_saving': 15.00},
             {'title': 'Unplug Standby Devices', 'description': 'Devices on standby consume up to 10% of your energy bill.', 'estimated_saving': 6.50},
         ]
 
         for r in rec_data:
             Recommendation.objects.get_or_create(homeowner=homeowner, title=r['title'], defaults=r)
 
-        self.stdout.write('  ✅ Recommendations created')
+        self.stdout.write('  âœ… Recommendations created')
 
-        # ── Notifications ───────────────────────────────────────────────────────
+        # â”€â”€ Notifications â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         from notifications.models import Notification
 
         notif_data = [
@@ -169,16 +172,16 @@ class Command(BaseCommand):
             defaults={'notification_type': 'fault', 'is_read': False}
         )
 
-        self.stdout.write('  ✅ Notifications created')
+        self.stdout.write('  âœ… Notifications created')
 
         self.stdout.write(self.style.SUCCESS(
-            '\n🎉 Demo data seeded successfully!\n\n'
+            '\nðŸŽ‰ Demo data seeded successfully!\n\n'
             '  Login credentials:\n'
-            '  ┌─────────────┬──────────────┬──────────┬────────┐\n'
-            '  │ Role        │ Username     │ Password │ ID     │\n'
-            '  ├─────────────┼──────────────┼──────────┼────────┤\n'
-            f' │ Homeowner   │ homeowner    │ demo1234 │ {homeowner.id}      │\n'
-            f' │ Admin       │ admin        │ demo1234 │ {admin_user.id}      │\n'
-            f' │ Technician  │ technician   │ demo1234 │ {technician.id}      │\n'
-            '  └─────────────┴──────────────┴──────────┴────────┘\n'
+            '  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”\n'
+            '  â”‚ Role        â”‚ Username     â”‚ Password â”‚ ID     â”‚\n'
+            '  â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”¤\n'
+            f' â”‚ Homeowner   â”‚ homeowner    â”‚ demo1234 â”‚ {homeowner.id}      â”‚\n'
+            f' â”‚ Admin       â”‚ admin        â”‚ demo1234 â”‚ {admin_user.id}      â”‚\n'
+            f' â”‚ Technician  â”‚ technician   â”‚ demo1234 â”‚ {technician.id}      â”‚\n'
+            '  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”˜\n'
         ))

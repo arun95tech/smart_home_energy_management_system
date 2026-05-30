@@ -1,13 +1,17 @@
+﻿// User profile page
 import { useEffect, useState } from 'react'
 import Sidebar from '../components/Sidebar.jsx'
 import { changePassword, getProfiles, patchProfile } from '../services/api.js'
 
+// Profile section
 export default function Profile() {
+  // role section
   const role = localStorage.getItem('role') || 'homeowner'
   const [profile, setProfile] = useState(null)
   const [passwords, setPasswords] = useState({ current_password: '', new_password: '' })
   const [msg, setMsg] = useState('')
 
+  // load section
   function load() {
     getProfiles()
       .then(items => setProfile(items.find(item => item.id === parseInt(localStorage.getItem('profile_id') || '0')) || items.find(item => item.username === localStorage.getItem('username')) || items[0] || null))
@@ -16,6 +20,7 @@ export default function Profile() {
 
   useEffect(load, [])
 
+  // saveProfile section
   async function saveProfile(e) {
     e.preventDefault()
     try {
@@ -32,6 +37,7 @@ export default function Profile() {
     }
   }
 
+  // savePassword section
   async function savePassword(e) {
     e.preventDefault()
     try {

@@ -1,6 +1,8 @@
+﻿# User profile serializer
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import UserProfile
+# UserProfileSerializer section
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -11,6 +13,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
     last_name = serializers.CharField(source='user.last_name', read_only=True)
     date_joined = serializers.DateTimeField(source='user.date_joined', read_only=True)
     pricing_plan_name = serializers.CharField(source='pricing_plan.name', read_only=True)
+    # Meta section
 
     class Meta:
         model = UserProfile

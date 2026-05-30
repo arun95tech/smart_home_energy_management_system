@@ -1,7 +1,9 @@
+﻿# Homeowner sample data command
 from datetime import date, timedelta
 
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
+# Management command
 
 
 class Command(BaseCommand):
@@ -27,6 +29,7 @@ class Command(BaseCommand):
         'priya': 'Living Room AC',
         'rohan': 'Bedroom Heater',
     }
+    # handle function
 
     def handle(self, *args, **options):
         from appliances.models import Appliance, FaultReport

@@ -1,3 +1,4 @@
+﻿// Homeowner appliance management page
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Sidebar from '../components/Sidebar.jsx'
@@ -8,6 +9,7 @@ const STATUS_BADGE = { on:'green', off:'gray', ok:'blue', faulty:'red' }
 
 const EMPTY_FORM = { name:'', appliance_type:'light', power_rating:'', room_location:'', status:'off', is_renewable_supported:false }
 
+// Homeowner appliance section
 export default function Appliances() {
   const navigate = useNavigate()
   const role = localStorage.getItem('role') || 'homeowner'
@@ -44,10 +46,10 @@ export default function Appliances() {
       await createAppliance({ ...form, homeowner: userId, power_rating: parseFloat(form.power_rating) || 0 })
       setForm(EMPTY_FORM)
       setShowForm(false)
-      setMsg('✅ Appliance added!')
+      setMsg('âœ… Appliance added!')
       load()
     } catch (err) {
-      setMsg('❌ ' + err.message)
+      setMsg('âŒ ' + err.message)
     } finally {
       setSaving(false)
       setTimeout(() => setMsg(''), 3000)
@@ -57,10 +59,10 @@ export default function Appliances() {
   async function handleStatusChange(id, newStatus) {
     try {
       await patchAppliance(id, { status: newStatus })
-      setMsg(`✅ Status updated to "${newStatus}"`)
+      setMsg(`âœ… Status updated to "${newStatus}"`)
       load()
     } catch (err) {
-      setMsg('❌ ' + err.message)
+      setMsg('âŒ ' + err.message)
     } finally {
       setTimeout(() => setMsg(''), 3000)
     }
@@ -70,10 +72,10 @@ export default function Appliances() {
     if (!window.confirm('Delete this appliance?')) return
     try {
       await deleteAppliance(id)
-      setMsg('✅ Appliance deleted.')
+      setMsg('âœ… Appliance deleted.')
       load()
     } catch (err) {
-      setMsg('❌ ' + err.message)
+      setMsg('âŒ ' + err.message)
     } finally {
       setTimeout(() => setMsg(''), 3000)
     }
@@ -93,22 +95,22 @@ export default function Appliances() {
       <main className="main-content">
         <div className="page-header">
           <div className="page-header-left">
-            <h1>🔌 <span>Appliances</span></h1>
+            <h1>ðŸ”Œ <span>Appliances</span></h1>
             <p>{role === 'homeowner' ? 'Manage your home appliances.' : 'View all appliances (read-only).'}</p>
           </div>
           {role === 'homeowner' && (
             <button className="btn btn-primary" onClick={() => setShowForm(v => !v)}>
-              {showForm ? '✕ Cancel' : '+ Add Appliance'}
+              {showForm ? 'âœ• Cancel' : '+ Add Appliance'}
             </button>
           )}
         </div>
 
-        {msg && <div className={`alert ${msg.startsWith('✅') ? 'alert--success' : 'alert--danger'}`}>{msg}</div>}
+        {msg && <div className={`alert ${msg.startsWith('âœ…') ? 'alert--success' : 'alert--danger'}`}>{msg}</div>}
 
         {/* Add Appliance Form (homeowner only) */}
         {role === 'homeowner' && showForm && (
           <div className="card" style={{ marginBottom: 20 }}>
-            <div className="card-header"><span className="card-title">➕ Add New Appliance</span></div>
+            <div className="card-header"><span className="card-title">âž• Add New Appliance</span></div>
             <form onSubmit={handleCreate}>
               <div className="form-row">
                 <div className="form-group">
@@ -146,7 +148,7 @@ export default function Appliances() {
                   </label>
                 </div>
               </div>
-              <button className="btn btn-primary" type="submit" disabled={saving}>{saving ? 'Saving…' : '✅ Add Appliance'}</button>
+              <button className="btn btn-primary" type="submit" disabled={saving}>{saving ? 'Savingâ€¦' : 'âœ… Add Appliance'}</button>
             </form>
           </div>
         )}
@@ -154,7 +156,7 @@ export default function Appliances() {
         {/* Filters */}
         <div className="filter-bar">
           {role !== 'homeowner' && (
-            <input placeholder="Filter by owner…" value={filterOwner} onChange={e => setFilterOwner(e.target.value)} />
+            <input placeholder="Filter by ownerâ€¦" value={filterOwner} onChange={e => setFilterOwner(e.target.value)} />
           )}
           <select value={filterType} onChange={e => setFilterType(e.target.value)}>
             <option value="">All Types</option>
@@ -170,9 +172,9 @@ export default function Appliances() {
         {/* Table */}
         <div className="card">
           {loading ? (
-            <div className="loading"><div className="loading-spinner"/><p>Loading appliances…</p></div>
+            <div className="loading"><div className="loading-spinner"/><p>Loading appliancesâ€¦</p></div>
           ) : filtered.length === 0 ? (
-            <div className="empty-state"><div className="empty-icon">🔌</div><p>No appliances found.</p></div>
+            <div className="empty-state"><div className="empty-icon">ðŸ”Œ</div><p>No appliances found.</p></div>
           ) : (
             <div className="table-wrap">
               <table>
@@ -189,17 +191,17 @@ export default function Appliances() {
                       <td style={{ fontWeight: 600 }}>{a.name}</td>
                       <td><span className="badge badge--blue">{a.appliance_type}</span></td>
                       <td>{a.power_rating}W</td>
-                      <td>{a.room_location || '—'}</td>
+                      <td>{a.room_location || 'â€”'}</td>
                       <td><span className={`badge badge--${STATUS_BADGE[a.status] || 'gray'}`}>{a.status.toUpperCase()}</span></td>
                       <td>{a.homeowner_username}</td>
-                      <td>{a.is_renewable_supported ? '✅' : '—'}</td>
+                      <td>{a.is_renewable_supported ? 'âœ…' : 'â€”'}</td>
                       {role === 'homeowner' && (
                         <td>
                           <div style={{ display:'flex', gap:4, flexWrap:'wrap' }}>
                             <button className="btn btn-sm btn-green" onClick={() => handleStatusChange(a.id,'on')}>On</button>
                             <button className="btn btn-sm btn-ghost" onClick={() => handleStatusChange(a.id,'off')}>Off</button>
-                            <button className="btn btn-sm btn-orange" onClick={() => handleStatusChange(a.id,'faulty')}>⚠️ Faulty</button>
-                            <button className="btn btn-sm btn-danger" onClick={() => handleDelete(a.id)}>🗑️</button>
+                            <button className="btn btn-sm btn-orange" onClick={() => handleStatusChange(a.id,'faulty')}>âš ï¸ Faulty</button>
+                            <button className="btn btn-sm btn-danger" onClick={() => handleDelete(a.id)}>ðŸ—‘ï¸</button>
                           </div>
                         </td>
                       )}

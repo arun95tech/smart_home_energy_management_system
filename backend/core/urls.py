@@ -1,7 +1,4 @@
-"""
-URL configuration for Smart Home Energy Management System.
-API routes under /api/, Django admin at /admin/, React catches everything else.
-"""
+﻿# Main project URL routes
 from django.contrib import admin
 from django.urls import path, include, re_path
 from django.conf import settings

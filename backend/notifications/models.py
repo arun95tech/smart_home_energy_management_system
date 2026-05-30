@@ -1,5 +1,7 @@
+﻿# Notification data model
 from django.db import models
 from django.contrib.auth.models import User
+# Notification section
 
 
 class Notification(models.Model):
@@ -17,13 +19,16 @@ class Notification(models.Model):
     message = models.TextField()
     is_read = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+    # mark_as_read function
 
     def mark_as_read(self):
         self.is_read = True
         self.save()
+    # Meta section
 
     class Meta:
         ordering = ['-created_at']
+    # __str__ function
 
     def __str__(self):
-        return f"{self.notification_type} → {self.recipient.username}"
+        return f"{self.notification_type} â†’ {self.recipient.username}"

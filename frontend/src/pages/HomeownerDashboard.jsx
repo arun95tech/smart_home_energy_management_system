@@ -1,3 +1,4 @@
+﻿// Homeowner dashboard page
 import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import Sidebar from '../components/Sidebar.jsx'
@@ -5,6 +6,7 @@ import DashboardCard from '../components/DashboardCard.jsx'
 import EnergyChart from '../components/EnergyChart.jsx'
 import { getDashboardSummary, getRecommendations, getNotifications } from '../services/api.js'
 
+// Homeowner dashboard section
 export default function HomeownerDashboard() {
   const navigate = useNavigate()
   const userId = parseInt(localStorage.getItem('user_id') || '1')
@@ -72,29 +74,29 @@ export default function HomeownerDashboard() {
             <p>Here's what's happening with your home energy today.</p>
           </div>
           <div className="page-header-right">
-            <span style={{ fontSize: 13, color: '#64748b' }}>☀️ 24°C Sunny</span>
+            <span style={{ fontSize: 13, color: '#64748b' }}>â˜€ï¸ 24Â°C Sunny</span>
           </div>
         </div>
 
         {loading ? (
-          <div className="loading"><div className="loading-spinner"/><p>Loading dashboard…</p></div>
+          <div className="loading"><div className="loading-spinner"/><p>Loading dashboardâ€¦</p></div>
         ) : (
           <>
             {/* Stats Cards */}
             <div className="cards-grid">
-              <DashboardCard title="Total Appliances" value={summary?.total_appliances ?? 0} subtitle={`Active: ${summary?.appliance_status_summary?.on ?? 0}`} icon="🔌" color="green" />
-              <DashboardCard title="Total Usage" value={`${summary?.total_kwh ?? 0} kWh`} subtitle="Today" icon="⚡" color="blue" />
-              <DashboardCard title="Total Cost" value={`£${summary?.total_cost ?? 0}`} subtitle="Today" icon="💷" color="teal" />
-              <DashboardCard title="Faulty Devices" value={summary?.faulty_appliances ?? 0} subtitle={summary?.faulty_appliances > 0 ? 'Needs attention' : 'All good'} icon="⚠️" color={summary?.faulty_appliances > 0 ? 'orange' : 'green'} />
-              <DashboardCard title="Notifications" value={summary?.unread_notifications ?? 0} subtitle="Unread alerts" icon="🔔" color="purple" />
-              <DashboardCard title="Recommendations" value={summary?.recommendations_count ?? 0} subtitle="Active tips" icon="🌿" color="green" />
+              <DashboardCard title="Total Appliances" value={summary?.total_appliances ?? 0} subtitle={`Active: ${summary?.appliance_status_summary?.on ?? 0}`} icon="ðŸ”Œ" color="green" />
+              <DashboardCard title="Total Usage" value={`${summary?.total_kwh ?? 0} kWh`} subtitle="Today" icon="âš¡" color="blue" />
+              <DashboardCard title="Total Cost" value={`Â£${summary?.total_cost ?? 0}`} subtitle="Today" icon="ðŸ’·" color="teal" />
+              <DashboardCard title="Faulty Devices" value={summary?.faulty_appliances ?? 0} subtitle={summary?.faulty_appliances > 0 ? 'Needs attention' : 'All good'} icon="âš ï¸" color={summary?.faulty_appliances > 0 ? 'orange' : 'green'} />
+              <DashboardCard title="Notifications" value={summary?.unread_notifications ?? 0} subtitle="Unread alerts" icon="ðŸ””" color="purple" />
+              <DashboardCard title="Recommendations" value={summary?.recommendations_count ?? 0} subtitle="Active tips" icon="ðŸŒ¿" color="green" />
             </div>
 
             {/* Appliance status summary */}
             {summary?.appliance_status_summary && (
               <div className="card mb-16" style={{ marginBottom: 20 }}>
                 <div className="card-header">
-                  <span className="card-title">🔌 Appliance Status Summary</span>
+                  <span className="card-title">ðŸ”Œ Appliance Status Summary</span>
                 </div>
                 <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
                   {[
@@ -118,27 +120,27 @@ export default function HomeownerDashboard() {
             <div className="content-grid">
               <div className="card">
                 <div className="card-header">
-                  <span className="card-title">⚡ Energy Usage Overview</span>
+                  <span className="card-title">âš¡ Energy Usage Overview</span>
                   <span className="badge badge--blue">Daily</span>
                 </div>
                 <EnergyChart type="line" labels={lineLabels} datasets={lineDatasets} height={180} />
                 <div style={{ display: 'flex', gap: 20, marginTop: 12, flexWrap: 'wrap' }}>
                   <div><p style={{ fontSize: 12, color: '#64748b' }}>Total Usage</p><p style={{ fontWeight: 800, fontSize: 16 }}>{summary?.total_kwh ?? 0} kWh</p></div>
-                  <div><p style={{ fontSize: 12, color: '#64748b' }}>Est. Cost</p><p style={{ fontWeight: 800, fontSize: 16 }}>£{summary?.total_cost ?? 0}</p></div>
+                  <div><p style={{ fontSize: 12, color: '#64748b' }}>Est. Cost</p><p style={{ fontWeight: 800, fontSize: 16 }}>Â£{summary?.total_cost ?? 0}</p></div>
                 </div>
                 <div style={{ marginTop: 12, display: 'flex', gap: 8 }}>
-                  <Link to="/energy-usage" className="btn btn-primary btn-sm">📊 View Usage</Link>
+                  <Link to="/energy-usage" className="btn btn-primary btn-sm">ðŸ“Š View Usage</Link>
                 </div>
               </div>
 
               <div className="card">
                 <div className="card-header">
-                  <span className="card-title">📈 Energy Trend (This Week)</span>
+                  <span className="card-title">ðŸ“ˆ Energy Trend (This Week)</span>
                 </div>
                 <EnergyChart type="bar" labels={weekDays} datasets={trendDatasets} height={180} />
                 <div style={{ marginTop: 10, display: 'flex', gap: 20 }}>
                   <div><p style={{ fontSize: 12, color: '#64748b' }}>Weekly Average</p><p style={{ fontWeight: 800, fontSize: 16 }}>127.6 kWh</p></div>
-                  <div><p style={{ fontSize: 12, color: '#64748b' }}>vs Last Week</p><p style={{ fontWeight: 700, fontSize: 14, color: '#22c55e' }}>↓ 6.4%</p></div>
+                  <div><p style={{ fontSize: 12, color: '#64748b' }}>vs Last Week</p><p style={{ fontWeight: 700, fontSize: 14, color: '#22c55e' }}>â†“ 6.4%</p></div>
                 </div>
               </div>
             </div>
@@ -147,35 +149,35 @@ export default function HomeownerDashboard() {
             <div className="content-grid" style={{ marginTop: 20 }}>
               <div className="card">
                 <div className="card-header">
-                  <span className="card-title">💡 Top Recommendations</span>
-                  <Link to="/recommendations" className="card-link">View All →</Link>
+                  <span className="card-title">ðŸ’¡ Top Recommendations</span>
+                  <Link to="/recommendations" className="card-link">View All â†’</Link>
                 </div>
                 {recs.length === 0 ? (
-                  <div className="empty-state"><div className="empty-icon">💡</div><p>No recommendations yet.</p></div>
+                  <div className="empty-state"><div className="empty-icon">ðŸ’¡</div><p>No recommendations yet.</p></div>
                 ) : recs.map(r => (
                   <div key={r.id} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, padding: '10px 0', borderBottom: '1px solid #f1f5f9' }}>
-                    <span style={{ fontSize: 20 }}>💡</span>
+                    <span style={{ fontSize: 20 }}>ðŸ’¡</span>
                     <div style={{ flex: 1 }}>
                       <p style={{ fontWeight: 600, fontSize: 13 }}>{r.title}</p>
                       <p style={{ fontSize: 12, color: '#64748b' }}>{r.description}</p>
                     </div>
-                    <span className="badge badge--green">Save £{r.estimated_saving}</span>
+                    <span className="badge badge--green">Save Â£{r.estimated_saving}</span>
                   </div>
                 ))}
               </div>
 
               <div className="card">
                 <div className="card-header">
-                  <span className="card-title">🔔 Recent Notifications</span>
-                  <Link to="/notifications" className="card-link">View All →</Link>
+                  <span className="card-title">ðŸ”” Recent Notifications</span>
+                  <Link to="/notifications" className="card-link">View All â†’</Link>
                 </div>
                 {notifs.length === 0 ? (
-                  <div className="empty-state"><div className="empty-icon">🔔</div><p>No notifications.</p></div>
+                  <div className="empty-state"><div className="empty-icon">ðŸ””</div><p>No notifications.</p></div>
                 ) : notifs.map(n => (
                   <div key={n.id} style={{ display: 'flex', gap: 10, padding: '10px 0', borderBottom: '1px solid #f1f5f9', alignItems: 'flex-start' }}>
-                    <span style={{ fontSize: 18 }}>{n.notification_type === 'fault' ? '⚠️' : n.notification_type === 'high_usage' ? '⚡' : '💡'}</span>
+                    <span style={{ fontSize: 18 }}>{n.notification_type === 'fault' ? 'âš ï¸' : n.notification_type === 'high_usage' ? 'âš¡' : 'ðŸ’¡'}</span>
                     <div style={{ flex: 1 }}>
-                      <p style={{ fontSize: 13, fontWeight: 600 }}>{n.message.slice(0, 60)}{n.message.length > 60 ? '…' : ''}</p>
+                      <p style={{ fontSize: 13, fontWeight: 600 }}>{n.message.slice(0, 60)}{n.message.length > 60 ? 'â€¦' : ''}</p>
                       <p style={{ fontSize: 11, color: '#94a3b8' }}>{new Date(n.created_at).toLocaleString()}</p>
                     </div>
                     {!n.is_read && <span className="badge badge--orange">New</span>}

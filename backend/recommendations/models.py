@@ -1,5 +1,7 @@
+﻿# Recommendation data model
 from django.db import models
 from django.contrib.auth.models import User
+# Recommendation section
 
 
 class Recommendation(models.Model):
@@ -8,6 +10,7 @@ class Recommendation(models.Model):
     description = models.TextField()
     estimated_saving = models.FloatField(default=0.0, help_text='Estimated saving in GBP per month')
     created_at = models.DateTimeField(auto_now_add=True)
+    # __str__ function
 
     def __str__(self):
-        return f"{self.title} → {self.homeowner.username}"
+        return f"{self.title} â†’ {self.homeowner.username}"

@@ -1,14 +1,11 @@
-"""
-Appliances app - Appliance, ApplianceSchedule, FaultReport models.
-"""
+﻿# Appliance data models
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+# Appliance section
 
 
 class Appliance(models.Model):
-    """Represents a home appliance owned by a homeowner."""
-
     TYPE_CHOICES = [
         ('light', 'Light'),
         ('ac', 'Air Conditioner'),
@@ -36,6 +33,7 @@ class Appliance(models.Model):
     is_renewable_supported = models.BooleanField(default=False)
     last_turned_on_at = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    # calculate_running_kwh function
 
     def calculate_running_kwh(self, now=None):
         if self.status != 'on' or not self.last_turned_on_at:
@@ -43,49 +41,50 @@ class Appliance(models.Model):
         now = now or timezone.now()
         elapsed_hours = max((now - self.last_turned_on_at).total_seconds(), 0) / 3600
         return round((self.power_rating / 1000) * elapsed_hours, 4)
+    # turn_on function
 
     def turn_on(self):
-        """Turn the appliance on."""
         if self.status != 'on':
             self.last_turned_on_at = timezone.now()
         self.status = 'on'
         self.save()
+    # turn_off function
 
     def turn_off(self):
-        """Turn the appliance off."""
         self.last_turned_on_at = None
         self.status = 'off'
         self.save()
+    # mark_faulty function
 
     def mark_faulty(self):
-        """Mark the appliance as faulty and trigger observer."""
         self.last_turned_on_at = None
         self.status = 'faulty'
         self.save()
-        # Observer pattern: trigger fault handling
+        # Observer Pattern: create fault report and technician notification.
         from notifications.observers import handle_appliance_fault
         handle_appliance_fault(self)
+    # __str__ function
 
     def __str__(self):
         return f"{self.name} ({self.homeowner.username})"
+# ApplianceSchedule section
 
 
 class ApplianceSchedule(models.Model):
-    """Schedule for when an appliance should be on/off."""
     appliance = models.ForeignKey(
         Appliance, on_delete=models.CASCADE, related_name='schedules'
     )
     start_time = models.TimeField()
     end_time = models.TimeField()
     repeat_daily = models.BooleanField(default=True)
+    # __str__ function
 
     def __str__(self):
         return f"{self.appliance.name}: {self.start_time} - {self.end_time}"
+# FaultReport section
 
 
 class FaultReport(models.Model):
-    """Records a fault reported for an appliance."""
-
     STATUS_CHOICES = [
         ('pending', 'Pending'),
         ('done', 'Done'),
@@ -101,20 +100,17 @@ class FaultReport(models.Model):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     reported_at = models.DateTimeField(auto_now_add=True)
     completed_at = models.DateTimeField(null=True, blank=True)
+    # Technician marks fault done
 
     def mark_done(self):
-        """
-        Mark this fault report as done.
-        Also sets the appliance status back to 'ok'.
-        """
         from django.utils import timezone
         self.status = 'done'
         self.completed_at = timezone.now()
         self.save()
 
-        # Reset appliance status to ok
         self.appliance.status = 'ok'
         self.appliance.save()
+    # __str__ function
 
     def __str__(self):
         return f"Fault: {self.appliance.name} - {self.status}"

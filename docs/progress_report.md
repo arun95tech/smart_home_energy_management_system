@@ -105,7 +105,7 @@ This report summarises the development progress of the Smart Home Energy Managem
   - Class Diagram
   - Entity Relationship Diagram
 - Added supporting diagrams for system architecture, role workflows, design patterns, and API data flow.
-- Stored the diagram JPG files in `docs/diagrams/`.
+- Stored the diagram image files in `docs/diagrams/`.
 
 ## Current Project Status
 

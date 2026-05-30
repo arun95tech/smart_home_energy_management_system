@@ -1,7 +1,9 @@
+﻿# Demo credential setup command
 from datetime import date, timedelta
 
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
+# Management command
 
 
 class Command(BaseCommand):
@@ -15,6 +17,7 @@ class Command(BaseCommand):
         ('vikram', 'vikram@123', 'vikram@example.com'),
         ('sara', 'sara@123', 'sara@example.com'),
     ]
+    # handle function
 
     def handle(self, *args, **options):
         from accounts.models import UserProfile

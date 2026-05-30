@@ -1,8 +1,10 @@
+﻿// Technician fault alerts page
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Sidebar from '../components/Sidebar.jsx'
 import { getFaultReports, markFaultDone } from '../services/api.js'
 
+// Technician fault alerts section
 export default function FaultAlerts() {
   const navigate = useNavigate()
   const role = localStorage.getItem('role') || 'technician'
@@ -26,10 +28,10 @@ export default function FaultAlerts() {
     setMarking(id)
     try {
       await markFaultDone(id)
-      setMsg('✅ Fault marked as done. Appliance status set to OK.')
+      setMsg('âœ… Fault marked as done. Appliance status set to OK.')
       load()
     } catch (err) {
-      setMsg('❌ ' + err.message)
+      setMsg('âŒ ' + err.message)
     } finally {
       setMarking(null)
       setTimeout(() => setMsg(''), 4000)
@@ -48,12 +50,12 @@ export default function FaultAlerts() {
       <main className="main-content">
         <div className="page-header">
           <div className="page-header-left">
-            <h1>⚠️ <span>Fault Alerts</span></h1>
+            <h1>âš ï¸ <span>Fault Alerts</span></h1>
             <p>View and manage appliance fault reports.</p>
           </div>
         </div>
 
-        {msg && <div className={`alert ${msg.startsWith('✅') ? 'alert--success' : 'alert--danger'}`}>{msg}</div>}
+        {msg && <div className={`alert ${msg.startsWith('âœ…') ? 'alert--success' : 'alert--danger'}`}>{msg}</div>}
 
         {/* Summary */}
         <div className="mini-stats" style={{ marginBottom: 20 }}>
@@ -75,8 +77,8 @@ export default function FaultAlerts() {
         <div className="filter-bar" style={{ marginBottom: 16 }}>
           {[
             { key:'all', label:`All (${total})` },
-            { key:'pending', label:`⏳ Pending (${pending.length})` },
-            { key:'done', label:`✅ Done (${done.length})` },
+            { key:'pending', label:`â³ Pending (${pending.length})` },
+            { key:'done', label:`âœ… Done (${done.length})` },
           ].map(tab => (
             <button key={tab.key} className={`btn btn-sm ${filter === tab.key ? 'btn-primary' : 'btn-ghost'}`} onClick={() => setFilter(tab.key)}>
               {tab.label}
@@ -87,9 +89,9 @@ export default function FaultAlerts() {
         {/* Fault Reports Table */}
         <div className="card">
           {loading ? (
-            <div className="loading"><div className="loading-spinner"/><p>Loading fault reports…</p></div>
+            <div className="loading"><div className="loading-spinner"/><p>Loading fault reportsâ€¦</p></div>
           ) : filtered.length === 0 ? (
-            <div className="empty-state"><div className="empty-icon">✅</div><p>No fault reports found.</p></div>
+            <div className="empty-state"><div className="empty-icon">âœ…</div><p>No fault reports found.</p></div>
           ) : (
             <div className="table-wrap">
               <table>
@@ -107,7 +109,7 @@ export default function FaultAlerts() {
                       <td style={{ fontWeight:600 }}>{f.appliance_name}</td>
                       <td><span className="badge badge--blue">{f.appliance_type}</span></td>
                       <td>{f.homeowner_username}</td>
-                      <td>{f.room_location || '—'}</td>
+                      <td>{f.room_location || 'â€”'}</td>
                       <td>{f.power_rating}W</td>
                       <td>
                         <span className={`badge badge--${f.appliance_status === 'faulty' ? 'red' : f.appliance_status === 'ok' ? 'green' : 'gray'}`}>
@@ -120,7 +122,7 @@ export default function FaultAlerts() {
                       </td>
                       <td>
                         <span className={`badge badge--${f.status === 'pending' ? 'orange' : 'green'}`}>
-                          {f.status === 'pending' ? '⏳ Pending' : '✅ Done'}
+                          {f.status === 'pending' ? 'â³ Pending' : 'âœ… Done'}
                         </span>
                         {f.completed_at && (
                           <div style={{ fontSize:10.5, color:'#94a3b8', marginTop:2 }}>
@@ -136,7 +138,7 @@ export default function FaultAlerts() {
                               onClick={() => handleMarkDone(f.id)}
                               disabled={marking === f.id}
                             >
-                              {marking === f.id ? '…' : '🔧 Mark Done'}
+                              {marking === f.id ? 'â€¦' : 'ðŸ”§ Mark Done'}
                             </button>
                           ) : (
                             <span style={{ fontSize:12, color:'#94a3b8' }}>Completed</span>
@@ -153,7 +155,7 @@ export default function FaultAlerts() {
 
         {role === 'technician' && pending.length > 0 && (
           <div className="alert alert--warning" style={{ marginTop: 16 }}>
-            🔧 You have <strong>{pending.length}</strong> pending fault report(s). Click "Mark Done" after completing the maintenance to update the appliance status to OK.
+            ðŸ”§ You have <strong>{pending.length}</strong> pending fault report(s). Click "Mark Done" after completing the maintenance to update the appliance status to OK.
           </div>
         )}
       </main>

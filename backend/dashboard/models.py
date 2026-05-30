@@ -1,3 +1,2 @@
+﻿# Dashboard app models
 from django.db import models
-
-# Create dashboard models here if needed.

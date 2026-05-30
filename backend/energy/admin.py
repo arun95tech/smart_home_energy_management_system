@@ -1,5 +1,7 @@
+﻿# Energy admin setup
 from django.contrib import admin
 from .models import EnergyUsage
+# EnergyUsageAdmin section
 
 @admin.register(EnergyUsage)
 class EnergyUsageAdmin(admin.ModelAdmin):

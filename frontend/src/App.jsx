@@ -1,3 +1,4 @@
+﻿// Main React app routes
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Login from './pages/Login.jsx'
 import HomeownerDashboard from './pages/HomeownerDashboard.jsx'
@@ -17,14 +18,18 @@ import Register from './pages/Register.jsx'
 import Billing from './pages/Billing.jsx'
 import Profile from './pages/Profile.jsx'
 
+// Role dashboard redirects
 const DASHBOARDS = {
   homeowner: '/homeowner-dashboard',
   admin: '/admin-dashboard',
   technician: '/technician-dashboard',
 }
 
+// Protect pages by login role
 function ProtectedRoute({ children, roles }) {
+  // role section
   const role = localStorage.getItem('role')
+  // token section
   const token = localStorage.getItem('auth_token')
   if (!role || !token) return <Navigate to="/login" replace />
   if (roles && !roles.includes(role)) {
@@ -33,6 +38,7 @@ function ProtectedRoute({ children, roles }) {
   return children
 }
 
+// Main application routes
 export default function App() {
   return (
     <BrowserRouter>

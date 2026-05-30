@@ -1,7 +1,9 @@
+﻿// Login page
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { login } from '../services/api.js'
 
+// Login page section
 export default function Login() {
   const navigate = useNavigate()
   const [username, setUsername] = useState('')
@@ -84,17 +86,17 @@ export default function Login() {
 
           <div className="login-hero-features">
             <div className="hero-feature-card">
-              <div className="icon">🌿</div>
+              <div className="icon">ðŸŒ¿</div>
               <strong>Lower Bills</strong>
               <span>Optimize usage and save more</span>
             </div>
             <div className="hero-feature-card">
-              <div className="icon">⚡</div>
+              <div className="icon">âš¡</div>
               <strong>Real-time Insights</strong>
               <span>Track usage and get instant alerts</span>
             </div>
             <div className="hero-feature-card">
-              <div className="icon">🛡️</div>
+              <div className="icon">ðŸ›¡ï¸</div>
               <strong>Secure & Reliable</strong>
               <span>Your data is safe and protected</span>
             </div>
@@ -104,7 +106,7 @@ export default function Login() {
         {/* RIGHT: Login Form */}
         <div className="login-form-side">
           <div className="login-logo">
-            <div className="logo-icon">🏠</div>
+            <div className="logo-icon">ðŸ </div>
             <h1>Smart Home</h1>
             <p>Energy Management System</p>
           </div>
@@ -115,14 +117,14 @@ export default function Login() {
 
             {error && (
               <div className="alert alert--danger" style={{ marginBottom: 14 }}>
-                ⚠️ {error}
+                âš ï¸ {error}
               </div>
             )}
 
             <div className="form-group">
               <label className="form-label">Username</label>
               <div style={{ position: 'relative' }}>
-                <span style={{ position: 'absolute', left: 11, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }}>👤</span>
+                <span style={{ position: 'absolute', left: 11, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }}>ðŸ‘¤</span>
                 <input
                   className="form-control"
                   style={{ paddingLeft: 32 }}
@@ -137,7 +139,7 @@ export default function Login() {
             <div className="form-group">
               <label className="form-label">Password</label>
               <div style={{ position: 'relative' }}>
-                <span style={{ position: 'absolute', left: 11, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }}>🔒</span>
+                <span style={{ position: 'absolute', left: 11, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }}>ðŸ”’</span>
                 <input
                   className="form-control"
                   style={{ paddingLeft: 32, paddingRight: 36 }}
@@ -165,7 +167,7 @@ export default function Login() {
                     className={`role-btn ${role === r ? 'role-btn--active' : ''}`}
                     onClick={() => setRole(r)}
                   >
-                    {r === 'homeowner' ? '🏠' : r === 'admin' ? '🛡️' : '🔧'}
+                    {r === 'homeowner' ? 'ðŸ ' : r === 'admin' ? 'ðŸ›¡ï¸' : 'ðŸ”§'}
                     {r.charAt(0).toUpperCase() + r.slice(1)}
                   </button>
                 ))}
@@ -173,7 +175,7 @@ export default function Login() {
             </div>
 
             <button type="submit" className="login-submit" disabled={loading}>
-              {loading ? 'Logging in...' : '🔐 Login'}
+              {loading ? 'Logging in...' : 'ðŸ” Login'}
             </button>
 
             {role === 'homeowner' && (

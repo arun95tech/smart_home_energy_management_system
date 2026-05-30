@@ -1,3 +1,4 @@
+﻿# Notification APIs
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework import status
@@ -5,11 +6,13 @@ from rest_framework.response import Response
 from accounts.utils import get_request_user, is_admin, is_homeowner, is_technician
 from .models import Notification
 from .serializers import NotificationSerializer
+# Notification management API
 
 
 class NotificationViewSet(viewsets.ModelViewSet):
     queryset = Notification.objects.select_related('recipient').all()
     serializer_class = NotificationSerializer
+    # get_queryset function
 
     def get_queryset(self):
         qs = super().get_queryset()
@@ -22,6 +25,7 @@ class NotificationViewSet(viewsets.ModelViewSet):
         if is_homeowner(self.request) or is_technician(self.request):
             return qs.filter(recipient=user)
         return qs.none()
+    # destroy function
 
     def destroy(self, request, *args, **kwargs):
         if is_admin(request):
@@ -31,6 +35,7 @@ class NotificationViewSet(viewsets.ModelViewSet):
         if is_homeowner(request) and notification.recipient_id != getattr(user, 'id', None):
             return Response({'detail': 'You can delete only your own notifications.'}, status=status.HTTP_403_FORBIDDEN)
         return super().destroy(request, *args, **kwargs)
+    # mark_read function
 
     @action(detail=True, methods=['patch'], url_path='mark-read')
     def mark_read(self, request, pk=None):

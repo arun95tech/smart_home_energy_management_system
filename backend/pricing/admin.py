@@ -1,5 +1,7 @@
+﻿# Pricing admin setup
 from django.contrib import admin
 from .models import PricingPlan
+# PricingPlanAdmin section
 
 @admin.register(PricingPlan)
 class PricingPlanAdmin(admin.ModelAdmin):

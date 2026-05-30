@@ -1,3 +1,4 @@
+﻿# Pricing plan and cost APIs
 """
 Pricing views - CRUD for plans + cost calculator endpoint.
 Uses Strategy Pattern for cost calculation.
@@ -8,31 +9,37 @@ from rest_framework.response import Response
 from accounts.utils import is_admin
 from .models import PricingPlan
 from .serializers import PricingPlanSerializer
+# Pricing plan management API
 
 
 class PricingPlanViewSet(viewsets.ModelViewSet):
     queryset = PricingPlan.objects.all()
     serializer_class = PricingPlanSerializer
+    # create function
 
     def create(self, request, *args, **kwargs):
         if not is_admin(request):
             return Response({'detail': 'Only admins can create pricing plans.'}, status=status.HTTP_403_FORBIDDEN)
         return super().create(request, *args, **kwargs)
+    # update function
 
     def update(self, request, *args, **kwargs):
         if not is_admin(request):
             return Response({'detail': 'Only admins can update pricing plans.'}, status=status.HTTP_403_FORBIDDEN)
         return super().update(request, *args, **kwargs)
+    # partial_update function
 
     def partial_update(self, request, *args, **kwargs):
         if not is_admin(request):
             return Response({'detail': 'Only admins can update pricing plans.'}, status=status.HTTP_403_FORBIDDEN)
         return super().partial_update(request, *args, **kwargs)
+    # destroy function
 
     def destroy(self, request, *args, **kwargs):
         if not is_admin(request):
             return Response({'detail': 'Only admins can delete pricing plans.'}, status=status.HTTP_403_FORBIDDEN)
         return super().destroy(request, *args, **kwargs)
+# Calculate electricity cost API
 
 
 @api_view(['POST'])

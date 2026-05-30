@@ -1,7 +1,9 @@
-#!/usr/bin/env python
+﻿#!/usr/bin/env python
+# Django command runner
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+# Start Django command line
 
 
 def main():

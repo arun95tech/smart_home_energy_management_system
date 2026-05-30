@@ -1,9 +1,11 @@
+﻿# User profile model
 """
 Accounts app - UserProfile model extending Django's built-in User.
 Adds role, contact info, and membership plan details.
 """
 from django.db import models
 from django.contrib.auth.models import User
+# UserProfile section
 
 
 class UserProfile(models.Model):
@@ -25,16 +27,19 @@ class UserProfile(models.Model):
         'pricing.PricingPlan', on_delete=models.SET_NULL, null=True, blank=True
     )
     plan_expiry_date = models.DateField(null=True, blank=True)
+    # activate_member function
 
     def activate_member(self):
         """Activate this user's membership."""
         self.is_active_member = True
         self.save()
+    # deactivate_member function
 
     def deactivate_member(self):
         """Deactivate this user's membership."""
         self.is_active_member = False
         self.save()
+    # __str__ function
 
     def __str__(self):
         return f"{self.user.username} ({self.role})"
